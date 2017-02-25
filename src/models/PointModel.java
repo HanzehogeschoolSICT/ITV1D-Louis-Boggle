@@ -1,5 +1,7 @@
 package models;
 
+import java.awt.*;
+
 public class PointModel {
     final int x;
     final int y;
@@ -16,11 +18,27 @@ public class PointModel {
     }
 
     /**
+     * Check if another object equals this point.
+     *
+     * @param other Other object to check.
+     * @return True if they are equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof PointModel))
+            return false;
+
+        PointModel otherPoint = (PointModel) other;
+        return x == otherPoint.x && y == otherPoint.y;
+    }
+
+    /**
      * Get the hash code for the point.
      *
      * @return Hash code for the point.
      */
+    @Override
     public int hashCode() {
-        return x * 31 + y;
+        return 31 * x + y;
     }
 }
