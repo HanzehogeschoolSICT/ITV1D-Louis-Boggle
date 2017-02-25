@@ -16,6 +16,16 @@ public class PointModel {
     }
 
     /**
+     * Get a string representation of the point.
+     *
+     * @return String representation of the point.
+     */
+    @Override
+    public String toString() {
+       return String.format("X: %d, Y: %d", x, y);
+    }
+
+    /**
      * Check if another object equals this point.
      *
      * @param other Other object to check.
