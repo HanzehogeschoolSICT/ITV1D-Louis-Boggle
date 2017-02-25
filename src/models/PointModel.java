@@ -1,7 +1,5 @@
 package models;
 
-import java.awt.*;
-
 public class PointModel {
     final int x;
     final int y;
