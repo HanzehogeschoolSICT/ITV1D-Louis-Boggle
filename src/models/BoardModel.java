@@ -103,4 +103,37 @@ public class BoardModel {
         PointModel point = new PointModel(x, y);
         list.add(point);
     }
+
+    /**
+     * Check if the given position is the last index of the board.
+     *
+     * @param position Position to check.
+     * @return True if it is the last index, false otherwise.
+     */
+    private boolean isLastIndex(int position) {
+        return position == size - 1;
+    }
+
+    /**
+     * Get a string representation of the board.
+     *
+     * @return String representation of the board.
+     */
+    public String toString() {
+        StringBuilder boardBuilder = new StringBuilder();
+
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                boardBuilder.append(board[x][y]);
+
+                if (!isLastIndex(y))
+                    boardBuilder.append(' ');
+            }
+
+            if (!isLastIndex(x))
+                boardBuilder.append('\n');
+        }
+
+        return boardBuilder.toString();
+    }
 }

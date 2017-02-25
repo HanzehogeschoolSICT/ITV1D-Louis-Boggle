@@ -51,7 +51,10 @@ class Solver {
             System.out.println(currentWord);
 
         List<PointModel> surroundingPoints = board.getSurroundingPoints(point);
-        for (PointModel surroundingPoint: surroundingPoints)
-            visitPoint(currentWord, surroundingPoint, visitedPoints);
+        for (PointModel surroundingPoint: surroundingPoints) {
+            // Create a copy of the set to prevent different paths from sharing visited points.
+            Set<PointModel> visitedPointsCopy = new HashSet<>(visitedPoints);
+            visitPoint(currentWord, surroundingPoint, visitedPointsCopy);
+        }
     }
 }
