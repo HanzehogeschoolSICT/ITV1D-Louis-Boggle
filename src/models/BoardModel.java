@@ -97,7 +97,7 @@ public class BoardModel {
      * @param y    Y position to add.
      */
     private void addPointToList(List<PointModel> list, int x, int y) {
-        if (x >= size || y >= size)
+        if (x < 0 || x >= size || y < 0 || y >= size)
             return;
 
         PointModel point = new PointModel(x, y);
