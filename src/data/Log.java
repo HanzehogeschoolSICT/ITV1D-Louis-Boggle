@@ -10,7 +10,7 @@ public class Log {
      * Send an informational message to the console using a formatted string.
      *
      * @param message Message to send to the console.
-     * @param args Objects to include in the formatted string.
+     * @param args    Objects to include in the formatted string.
      */
     public static void info(String message, Object... args) {
         write(String.format(message, args), 'I');
@@ -20,7 +20,7 @@ public class Log {
      * Send an error message to the console using a formatted string.
      *
      * @param message Message to send to the console.
-     * @param args Objects to include in the formatted string.
+     * @param args    Objects to include in the formatted string.
      */
     public static void error(String message, Object... args) {
         write(String.format(message, args), 'E');
@@ -29,7 +29,7 @@ public class Log {
     /**
      * Send a message to the console.
      *
-     * @param message Message to send to the console.
+     * @param message       Message to send to the console.
      * @param typeIndicator Message type indicator to send to the console.
      */
     private static void write(String message, char typeIndicator) {

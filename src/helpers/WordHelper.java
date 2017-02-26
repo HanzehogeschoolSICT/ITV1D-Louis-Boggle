@@ -1,44 +1,44 @@
 package helpers;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class WordHelper {
-    private static WordHelper instance;
+    private final Set<String> wordParts = new HashSet<>();
 
     /**
      * Initialize the word helper.
+     *
+     * @param words Word set to use for partial matching.
      */
-    private WordHelper() {
-
+    public WordHelper(Set<String> words) {
+        fillWordParts(words);
     }
 
     /**
-     * Get the current word helper instance.
+     * Fill the word parts set using the given words set.
+     * By filling the set with every possible word part, the matching becomes an O(1) operation.
+     * This is critical for the performance, because the hasPartialMatch method is invoked many times.
      *
-     * @return Current word helper instance.
+     * @param words Word set to use.
      */
-    public static WordHelper getInstance() {
-        if (instance == null)
-            instance = new WordHelper();
+    private void fillWordParts(Set<String> words) {
+        for (String word : words) {
+            // Subtract 1, because we only want word parts, not the whole word.
+            int maxIndex = word.length() - 1;
 
-        return instance;
+            for (int i = 1; i < maxIndex; i++)
+                wordParts.add(word.substring(0, i));
+        }
     }
 
     /**
      * Check if a word has a partial match.
      *
-     * @param words     Set of words to check.
      * @param matchWord Partial word to match.
      * @return True if the word has a partial match, false otherwise.
      */
-    public boolean hasPartialMatch(Set<String> words, String matchWord) {
-        for (String word : words) {
-            // Check if the word starts with instead of contains,
-            // because the word has to match all points from the starting point.
-            if (word.startsWith(matchWord))
-                return true;
-        }
-
-        return false;
+    public boolean hasPartialMatch(String matchWord) {
+        return wordParts.contains(matchWord);
     }
 }

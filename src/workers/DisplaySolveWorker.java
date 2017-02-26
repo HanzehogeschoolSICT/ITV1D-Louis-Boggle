@@ -12,7 +12,7 @@ public class DisplaySolveWorker extends SwingWorker<Void, Void> {
      * Initialize the display solve worker.
      *
      * @param boardController Board controller to use.
-     * @param components Components to disable during the process.
+     * @param components      Components to disable during the process.
      */
     public DisplaySolveWorker(BoardController boardController, JComponent... components) {
         this.boardController = boardController;

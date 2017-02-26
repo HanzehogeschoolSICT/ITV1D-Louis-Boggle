@@ -1,5 +1,7 @@
 package models;
 
+import helpers.WordHelper;
+
 import java.util.List;
 import java.util.Set;
 
@@ -7,6 +9,7 @@ public class SolveWorkerDataModel {
     private final BoardModel board;
     private final Set<String> words;
     private final List<MatchModel> matches;
+    private final WordHelper wordHelper;
 
     /**
      * Initialize the solve worker data.
@@ -19,6 +22,7 @@ public class SolveWorkerDataModel {
         this.board = board;
         this.words = words;
         this.matches = matches;
+        this.wordHelper = new WordHelper(words);
     }
 
     /**
@@ -46,5 +50,14 @@ public class SolveWorkerDataModel {
      */
     public List<MatchModel> getMatches() {
         return matches;
+    }
+
+    /**
+     * Get the word helper.
+     *
+     * @return Word helper.
+     */
+    public WordHelper getWordHelper() {
+        return wordHelper;
     }
 }

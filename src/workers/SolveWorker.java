@@ -27,9 +27,8 @@ public class SolveWorker implements Runnable {
         this.board = data.getBoard();
         this.words = data.getWords();
         this.matches = data.getMatches();
+        this.wordHelper = data.getWordHelper();
         this.startPoint = startPoint;
-
-        wordHelper = WordHelper.getInstance();
     }
 
     /**
@@ -58,7 +57,7 @@ public class SolveWorker implements Runnable {
 
         if (!checkForMatch(currentWord, visitedPoints)) {
             // Prevent unnecessary operations if the current word doesn't have a match already.
-            if (!wordHelper.hasPartialMatch(words, currentWord))
+            if (!wordHelper.hasPartialMatch(currentWord))
                 return;
         }
 

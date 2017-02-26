@@ -64,9 +64,9 @@ public class MainDisplay extends JFrame {
      */
     private void showNoWordsMessage() {
         String message = String.format("No words have been loaded. Please check the console output.%n" +
-            "By default, words.txt in the working directory of this program is loaded.%n" +
-            "To use a specific file, start this program using the --words option.%n" +
-            "Example: java -jar Boggle.jar --words C:\\words.txt");
+                "By default, words.txt in the working directory of this program is loaded.%n" +
+                "To use a specific file, start this program using the --words option.%n" +
+                "Example: java -jar Boggle.jar --words C:\\words.txt");
 
         JOptionPane.showOptionDialog(this, message, "No words loaded",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
