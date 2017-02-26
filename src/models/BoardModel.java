@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardModel {
-    private int size;
-    private char[][] board;
+    private final int size;
+    private final char[][] board;
 
     /**
      * Initialize the board using the given width and height.
@@ -119,6 +119,7 @@ public class BoardModel {
      *
      * @return String representation of the board.
      */
+    @Override
     public String toString() {
         StringBuilder boardBuilder = new StringBuilder();
 

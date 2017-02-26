@@ -1,9 +1,12 @@
 import models.BoardModel;
+import models.MatchModel;
+import services.SolveService;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class Bootstrap {
+class Bootstrap {
     /**
      * Bootstrap the application.
      *
@@ -13,8 +16,7 @@ public class Bootstrap {
         BoardModel board = new BoardModel(3);
 
         Set<String> words = new HashSet<>();
-        Solver solver = new Solver(board, words);
-
-        solver.solve();
+        SolveService solveService = new SolveService(board, words);
+        List<MatchModel> matches = solveService.getMatches();
     }
 }
