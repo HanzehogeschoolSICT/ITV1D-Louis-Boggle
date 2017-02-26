@@ -28,6 +28,15 @@ public class BoardController {
     }
 
     /**
+     * Check if any words exist.
+     *
+     * @return True if there are words, false otherwise.
+     */
+    public boolean hasWords() {
+        return words.size() > 0;
+    }
+
+    /**
      * Create a new board using the given size.
      *
      * @param size Size of the new board.

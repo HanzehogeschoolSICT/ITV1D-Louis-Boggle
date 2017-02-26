@@ -25,6 +25,9 @@ public class MainDisplay extends JFrame {
         boardController.setAdjustSizeHandler(this::adjustSizeHandler);
         boardController.adjustSize();
         setVisible(true);
+
+        if (!boardController.hasWords())
+            showNoWordsMessage();
     }
 
     /**
@@ -53,6 +56,19 @@ public class MainDisplay extends JFrame {
         } catch (Exception exception) {
             System.out.println("Failed to apply system look and feel.");
         }
+    }
+
+    /**
+     * Show a message indicating that no words have been loaded.
+     */
+    private void showNoWordsMessage() {
+        String message = String.format("No words have been loaded. Please check the console output.%n" +
+            "By default, words.txt in the working directory of this program is loaded.%n" +
+            "To use a specific file, start this program using the --words option.%n" +
+            "Example: java -jar Boggle.jar --words C:\\words.txt");
+
+        JOptionPane.showOptionDialog(this, message, "No words loaded",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
     }
 
     /**
