@@ -24,8 +24,9 @@ public class WordHelper {
      */
     private void fillWordParts(Set<String> words) {
         for (String word : words) {
-            // Subtract 1, because we only want word parts, not the whole word.
-            int maxIndex = word.length() - 1;
+            // Only add word parts, not the whole word. This is sufficient because
+            // the max index is exclusive for both the for loop and the substring method.
+            int maxIndex = word.length();
 
             for (int i = 1; i < maxIndex; i++)
                 wordParts.add(word.substring(0, i));
