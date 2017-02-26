@@ -1,5 +1,6 @@
 package services;
 
+import helpers.WordHelper;
 import models.BoardModel;
 import models.MatchModel;
 import models.PointModel;
@@ -13,6 +14,7 @@ public class SolveService {
     private final BoardModel board;
     private final Set<String> words;
     private final List<MatchModel> matches;
+    private final int longestWordLength;
     private boolean isSolved;
 
     /**
@@ -25,6 +27,9 @@ public class SolveService {
         this.board = board;
         this.words = words;
         matches = new ArrayList<>();
+
+        WordHelper wordHelper = WordHelper.getInstance();
+        longestWordLength = wordHelper.getLongestWordLength(words);
     }
 
     /**
@@ -67,11 +72,11 @@ public class SolveService {
         visitedPoints.add(point);
         currentWord += letter;
 
-        // Check if the current word matches any word in the list.
-        if (words.contains(currentWord)) {
-            MatchModel match = new MatchModel(currentWord, visitedPoints);
-            matches.add(match);
-        }
+        checkForMatch(currentWord, visitedPoints);
+
+        // Prevent unnecessary operations if the current word length exceeds the longest word length.
+        if (currentWord.length() >= longestWordLength)
+            return;
 
         List<PointModel> surroundingPoints = board.getSurroundingPoints(point);
         for (PointModel surroundingPoint : surroundingPoints) {
@@ -79,5 +84,19 @@ public class SolveService {
             Set<PointModel> visitedPointsCopy = new HashSet<>(visitedPoints);
             visitPoint(currentWord, surroundingPoint, visitedPointsCopy);
         }
+    }
+
+    /**
+     * Check if the current word matches any of the words.
+     *
+     * @param currentWord   Word to check for.
+     * @param visitedPoints Visited points for the current word.
+     */
+    private void checkForMatch(String currentWord, Set<PointModel> visitedPoints) {
+        if (!words.contains(currentWord))
+            return;
+
+        MatchModel match = new MatchModel(currentWord, visitedPoints);
+        matches.add(match);
     }
 }
