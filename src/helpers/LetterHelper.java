@@ -1,6 +1,9 @@
 package helpers;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class LetterHelper {
     private static LetterHelper instance = null;
@@ -37,5 +40,23 @@ public class LetterHelper {
     public char getRandomLetter() {
         int randomIndex = random.nextInt(letters.length);
         return letters[randomIndex];
+    }
+
+    /**
+     * Check if a word consists only out of letters.
+     *
+     * @param word Word to check.
+     * @return True if the word only consists out of letters, false otherwise.
+     */
+    public boolean allLetters(String word) {
+        char[] characters = word.toCharArray();
+        Set<Character> letterSet = new HashSet<>(Arrays.asList(letters));
+
+        for (char character : characters) {
+            if (!letterSet.contains(character))
+                return false;
+        }
+
+        return true;
     }
 }
