@@ -61,6 +61,9 @@ class Bootstrap {
      * @param word  Word to validate and add.
      */
     private static void addWord(Set<String> words, String word) {
+        if (word.equals(""))
+            return;
+
         word = word.toUpperCase();
         LetterHelper letterHelper = LetterHelper.getInstance();
 
