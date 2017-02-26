@@ -24,6 +24,7 @@ public class BoardController {
     public void setBoard(int size) {
         board = new BoardModel(size);
         solveService = new SolveService(board, words);
+        setDisplayMatchHandler.accept(null);
         updateBoardDisplayHandler.accept(board);
     }
 

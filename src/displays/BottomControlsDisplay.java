@@ -10,7 +10,7 @@ import java.util.List;
 class BottomControlsDisplay extends JPanel {
     private final BoardController boardController;
     private JComboBox<MatchModel> matchesComboBox;
-    private JLabel noMatchesLabel;
+    private JComboBox<String> noMatchesComboBox;
 
     BottomControlsDisplay(BoardController boardController) {
         this.boardController = boardController;
@@ -27,8 +27,10 @@ class BottomControlsDisplay extends JPanel {
         matchesComboBox.addActionListener(this::matchSelectedHandler);
         add(matchesComboBox);
 
-        noMatchesLabel = new JLabel("none");
-        add(noMatchesLabel);
+        noMatchesComboBox = new JComboBox<>();
+        noMatchesComboBox.addItem("None");
+        noMatchesComboBox.setEnabled(false);
+        add(noMatchesComboBox);
 
         checkForMatches();
     }
@@ -37,7 +39,7 @@ class BottomControlsDisplay extends JPanel {
         boolean hasItems = matchesComboBox.getItemCount() > 0;
 
         matchesComboBox.setVisible(hasItems);
-        noMatchesLabel.setVisible(!hasItems);
+        noMatchesComboBox.setVisible(!hasItems);
     }
 
     private void matchSelectedHandler(ActionEvent actionEvent) {
