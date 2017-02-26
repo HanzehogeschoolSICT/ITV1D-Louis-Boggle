@@ -86,6 +86,10 @@ class BoardDisplay extends JPanel {
      */
     private void adjustSize(int boardSize, int letterSize) {
         int adjustedSize = boardSize * letterSize;
+
+        if (adjustedSize == preferredSize.width && adjustedSize == preferredSize.height)
+            return;
+
         preferredSize = new Dimension(adjustedSize, adjustedSize);
         setSize(preferredSize);
 
