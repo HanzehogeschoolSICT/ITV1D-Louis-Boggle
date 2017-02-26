@@ -32,7 +32,7 @@ class TopControlsDisplay extends JPanel {
     }
 
     private void newBoardHandler(ActionEvent actionEvent) {
-        int boardSize = (int)boardSizeSpinner.getValue();
+        int boardSize = (int) boardSizeSpinner.getValue();
         boardController.setBoard(boardSize);
     }
 

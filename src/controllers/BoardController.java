@@ -6,11 +6,16 @@ import services.SolveService;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public class BoardController {
+    private final Set<String> words;
     private BoardModel board;
-    private Set<String> words;
     private SolveService solveService;
+
+    private Consumer<MatchModel> setDisplayMatchHandler;
+    private Consumer<List<MatchModel>> updateMatchesHandler;
+    private Consumer<BoardModel> updateBoardDisplayHandler;
 
     public BoardController(Set<String> words) {
         this.words = words;
@@ -19,10 +24,7 @@ public class BoardController {
     public void setBoard(int size) {
         board = new BoardModel(size);
         solveService = new SolveService(board, words);
-    }
-
-    public BoardModel getBoard() {
-        return board;
+        updateBoardDisplayHandler.accept(board);
     }
 
     public void solveBoard() {
@@ -30,5 +32,23 @@ public class BoardController {
             return;
 
         List<MatchModel> matches = solveService.getMatches();
+        updateMatchesHandler.accept(matches);
+    }
+
+    public void displayMatch(MatchModel match) {
+        setDisplayMatchHandler.accept(match);
+        updateBoardDisplayHandler.accept(board);
+    }
+
+    public void setSetDisplayMatchHandler(Consumer<MatchModel> setDisplayMatchHandler) {
+        this.setDisplayMatchHandler = setDisplayMatchHandler;
+    }
+
+    public void setUpdateMatchesHandler(Consumer<List<MatchModel>> updateMatchesHandler) {
+        this.updateMatchesHandler = updateMatchesHandler;
+    }
+
+    public void setUpdateBoardDisplayHandler(Consumer<BoardModel> updateBoardDisplayHandler) {
+        this.updateBoardDisplayHandler = updateBoardDisplayHandler;
     }
 }
