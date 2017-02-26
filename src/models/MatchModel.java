@@ -18,15 +18,6 @@ public class MatchModel {
     }
 
     /**
-     * Get the matched word.
-     *
-     * @return Matched word.
-     */
-    public String getWord() {
-        return word;
-    }
-
-    /**
      * Check if a point is included in this match.
      *
      * @param point Point to check.

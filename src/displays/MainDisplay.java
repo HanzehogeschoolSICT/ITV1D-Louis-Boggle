@@ -12,7 +12,7 @@ public class MainDisplay extends JFrame {
      * @param boardController Board controller to use.
      */
     public MainDisplay(BoardController boardController) {
-        setTitle("Sorting");
+        setTitle("Boggle");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
@@ -22,9 +22,8 @@ public class MainDisplay extends JFrame {
         initializeViews(boardController);
         setSystemLookAndFeel();
 
-        pack();
-        // Show frame in the center of the screen.
-        setLocationRelativeTo(null);
+        boardController.setAdjustSizeHandler(this::adjustSizeHandler);
+        boardController.adjustSize();
         setVisible(true);
     }
 
@@ -54,5 +53,14 @@ public class MainDisplay extends JFrame {
         } catch (Exception exception) {
             System.out.println("Failed to apply system look and feel.");
         }
+    }
+
+    /**
+     * Handle control size changes.
+     */
+    private void adjustSizeHandler() {
+        pack();
+        // Show frame in the center of the screen.
+        setLocationRelativeTo(null);
     }
 }

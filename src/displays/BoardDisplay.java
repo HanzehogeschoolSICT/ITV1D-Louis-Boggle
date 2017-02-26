@@ -10,8 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 
 class BoardDisplay extends JPanel {
+    private final BoardController boardController;
     private BoardModel board;
     private MatchModel displayMatch;
+    private Dimension preferredSize;
 
     /**
      * Initialize the board display.
@@ -19,6 +21,9 @@ class BoardDisplay extends JPanel {
      * @param boardController Board controller to use.
      */
     BoardDisplay(BoardController boardController) {
+        this.boardController = boardController;
+        preferredSize = new Dimension(Settings.BOARD_DISPLAY_SIZE, Settings.BOARD_DISPLAY_SIZE);
+
         boardController.setSetDisplayMatchHandler(this::setDisplayMatchHandler);
         boardController.setUpdateBoardDisplayHandler(this::updateBoardDisplayHandler);
     }
@@ -30,7 +35,7 @@ class BoardDisplay extends JPanel {
      */
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(Settings.BOARD_DISPLAY_SIZE, Settings.BOARD_DISPLAY_SIZE);
+        return preferredSize;
     }
 
     /**
@@ -66,10 +71,23 @@ class BoardDisplay extends JPanel {
 
         int boardSize = board.size();
         int letterSize = Settings.BOARD_DISPLAY_SIZE / boardSize;
+        adjustSize(boardSize, letterSize);
 
         java.util.List<PointModel> allPoints = board.getAllPoints();
         for (PointModel point : allPoints)
             drawPoint(graphics, point, letterSize);
+    }
+
+    /**
+     * Adjust the control size to avoid white space for odd sizes.
+     *
+     * @param boardSize  Size of the board.
+     * @param letterSize Size per letter.
+     */
+    private void adjustSize(int boardSize, int letterSize) {
+        int adjustedSize = boardSize * letterSize;
+        preferredSize = new Dimension(adjustedSize, adjustedSize);
+        boardController.adjustSize();
     }
 
     /**

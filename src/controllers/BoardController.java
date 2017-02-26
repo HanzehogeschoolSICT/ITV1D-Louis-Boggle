@@ -16,6 +16,7 @@ public class BoardController {
     private Consumer<MatchModel> setDisplayMatchHandler;
     private Consumer<List<MatchModel>> updateMatchesHandler;
     private Consumer<BoardModel> updateBoardDisplayHandler;
+    private Runnable adjustSizeHandler;
 
     /**
      * Initialize the board controller.
@@ -62,6 +63,13 @@ public class BoardController {
     }
 
     /**
+     * Adjust the size of the window to its contents.
+     */
+    public void adjustSize() {
+        adjustSizeHandler.run();
+    }
+
+    /**
      * Set the set display match handler.
      *
      * @param setDisplayMatchHandler Set display match handler.
@@ -86,5 +94,14 @@ public class BoardController {
      */
     public void setUpdateBoardDisplayHandler(Consumer<BoardModel> updateBoardDisplayHandler) {
         this.updateBoardDisplayHandler = updateBoardDisplayHandler;
+    }
+
+    /**
+     * Set the adjust size handler.
+     *
+     * @param adjustSizeHandler Adjust size handler.
+     */
+    public void setAdjustSizeHandler(Runnable adjustSizeHandler) {
+        this.adjustSizeHandler = adjustSizeHandler;
     }
 }
