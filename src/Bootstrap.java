@@ -19,6 +19,7 @@ class Bootstrap {
         if (args.length >= 2 && args[0].equals("--words"))
             path = args[1];
 
+        System.out.println(String.format("Loading words from %s", path));
         Set<String> words = loadWords(path);
 
         BoardController boardController = new BoardController(words);
@@ -47,7 +48,7 @@ class Bootstrap {
             bufferedReader.close();
             fileReader.close();
         } catch (Exception exception) {
-            System.out.println("Words file not found");
+            System.out.println(String.format("Words file not found: %s", path));
         }
 
         return words;
