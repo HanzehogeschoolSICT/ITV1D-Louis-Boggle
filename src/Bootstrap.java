@@ -6,6 +6,7 @@ import helpers.LetterHelper;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,7 +41,7 @@ class Bootstrap {
         try {
             FileReader fileReader = new FileReader(path);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line = bufferedReader.readLine();
+            String line = readFirstLine(bufferedReader);
 
             while (line != null) {
                 addWord(words, line);
@@ -54,6 +55,28 @@ class Bootstrap {
         }
 
         return words;
+    }
+
+    /**
+     * Read the first line of the buffered reader.
+     * This method removes the UTF8 Byte Order Mark, which causes valid words to be marked as invalid.
+     *
+     * @param bufferedReader Buffered reader to use.
+     * @return Sanitized first line.
+     */
+    private static String readFirstLine(BufferedReader bufferedReader) {
+        try {
+            String line = bufferedReader.readLine();
+
+            final String utf8bom = "\uFEFF";
+            if (line.startsWith(utf8bom))
+                line = line.substring(1);
+
+            return line;
+        } catch (IOException exception) {
+            Log.error("Failed to read words");
+            return null;
+        }
     }
 
     /**
