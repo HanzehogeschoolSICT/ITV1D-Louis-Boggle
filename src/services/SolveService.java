@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Set;
 
 public class SolveService {
-    private boolean isSolved;
     private final BoardModel board;
     private final Set<String> words;
     private final List<MatchModel> matches;
+    private boolean isSolved;
 
     /**
      * Initialize the solve service using the given board and list of words.

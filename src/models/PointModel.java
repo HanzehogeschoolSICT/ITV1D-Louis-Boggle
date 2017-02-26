@@ -22,7 +22,7 @@ public class PointModel {
      */
     @Override
     public String toString() {
-       return String.format("X: %d, Y: %d", x, y);
+        return String.format("X: %d, Y: %d", x, y);
     }
 
     /**
