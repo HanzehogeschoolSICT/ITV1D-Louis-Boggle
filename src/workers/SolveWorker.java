@@ -1,5 +1,6 @@
 package workers;
 
+import helpers.WordHelper;
 import models.BoardModel;
 import models.MatchModel;
 import models.PointModel;
@@ -11,23 +12,24 @@ import java.util.Set;
 
 public class SolveWorker implements Runnable {
     private final BoardModel board;
-    private final int longestWordLength;
     private final Set<String> words;
     private final List<MatchModel> matches;
     private final PointModel startPoint;
+    private final WordHelper wordHelper;
 
     /**
      * Initialize the solve worker.
      *
-     * @param data Data to use for solving.
+     * @param data       Data to use for solving.
      * @param startPoint Start point for solving.
      */
     public SolveWorker(SolveWorkerDataModel data, PointModel startPoint) {
         this.board = data.getBoard();
-        this.longestWordLength = data.getLongestWordLength();
         this.words = data.getWords();
         this.matches = data.getMatches();
         this.startPoint = startPoint;
+
+        wordHelper = WordHelper.getInstance();
     }
 
     /**
@@ -54,11 +56,11 @@ public class SolveWorker implements Runnable {
         visitedPoints.add(point);
         currentWord += letter;
 
-        checkForMatch(currentWord, visitedPoints);
-
-        // Prevent unnecessary operations if the current word length exceeds the longest word length.
-        if (currentWord.length() >= longestWordLength)
-            return;
+        if (!checkForMatch(currentWord, visitedPoints)) {
+            // Prevent unnecessary operations if the current word doesn't have a match already.
+            if (!wordHelper.hasPartialMatch(words, currentWord))
+                return;
+        }
 
         List<PointModel> surroundingPoints = board.getSurroundingPoints(point);
         for (PointModel surroundingPoint : surroundingPoints) {
@@ -73,12 +75,15 @@ public class SolveWorker implements Runnable {
      *
      * @param currentWord   Word to check for.
      * @param visitedPoints Visited points for the current word.
+     * @return True if the current word has any match.
      */
-    private void checkForMatch(String currentWord, Set<PointModel> visitedPoints) {
+    private boolean checkForMatch(String currentWord, Set<PointModel> visitedPoints) {
         if (!words.contains(currentWord))
-            return;
+            return false;
 
         MatchModel match = new MatchModel(currentWord, visitedPoints);
         matches.add(match);
+
+        return true;
     }
 }

@@ -13,7 +13,7 @@ class Bootstrap {
      * @param args Any arguments.
      */
     public static void main(String[] args) {
-        BoardModel board = new BoardModel(3);
+        BoardModel board = new BoardModel(16);
 
         Set<String> words = new HashSet<>();
         SolveService solveService = new SolveService(board, words);

@@ -25,18 +25,20 @@ public class WordHelper {
     }
 
     /**
-     * Get the number of characters of the longest word in the given set.
+     * Check if a word has a partial match.
      *
-     * @param words Set to get the longest word for.
-     * @return Number of characters of the longest word.
+     * @param words     Set of words to check.
+     * @param matchWord Partial word to match.
+     * @return True if the word has a partial match, false otherwise.
      */
-    public int getLongestWordLength(Set<String> words) {
-        int longestWord = 0;
+    public boolean hasPartialMatch(Set<String> words, String matchWord) {
+        for (String word : words) {
+            // Check if the word starts with instead of contains,
+            // because the word has to match all points from the starting point.
+            if (word.startsWith(matchWord))
+                return true;
+        }
 
-        for (String word : words)
-            if (word.length() > longestWord)
-                longestWord = word.length();
-
-        return longestWord;
+        return false;
     }
 }

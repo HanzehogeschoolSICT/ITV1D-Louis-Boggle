@@ -1,6 +1,5 @@
 package services;
 
-import helpers.WordHelper;
 import models.BoardModel;
 import models.MatchModel;
 import models.PointModel;
@@ -19,7 +18,6 @@ public class SolveService {
     private final BoardModel board;
     private final Set<String> words;
     private final List<MatchModel> matches;
-    private final int longestWordLength;
     private boolean isSolved;
 
     /**
@@ -32,9 +30,6 @@ public class SolveService {
         this.board = board;
         this.words = words;
         matches = Collections.synchronizedList(new ArrayList<>());
-
-        WordHelper wordHelper = WordHelper.getInstance();
-        longestWordLength = wordHelper.getLongestWordLength(words);
     }
 
     /**
@@ -55,9 +50,10 @@ public class SolveService {
     private void solve() {
         List<PointModel> allPoints = board.getAllPoints();
 
+        // Distribute the work over the number of cores in this PC.
         int processors = Runtime.getRuntime().availableProcessors();
         ExecutorService executorService = Executors.newFixedThreadPool(processors);
-        SolveWorkerDataModel solveWorkerData = new SolveWorkerDataModel(board, words, matches, longestWordLength);
+        SolveWorkerDataModel solveWorkerData = new SolveWorkerDataModel(board, words, matches);
 
         for (PointModel point : allPoints)
             executorService.execute(new SolveWorker(solveWorkerData, point));
@@ -71,6 +67,4 @@ public class SolveService {
             exception.printStackTrace();
         }
     }
-
-
 }
