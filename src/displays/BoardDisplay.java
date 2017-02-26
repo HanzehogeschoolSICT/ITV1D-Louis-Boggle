@@ -4,16 +4,16 @@ import controllers.BoardController;
 import data.Settings;
 import models.BoardModel;
 import models.MatchModel;
+import models.PointModel;
 
 import javax.swing.*;
 import java.awt.*;
 
 class BoardDisplay extends JPanel {
-    private BoardController boardController;
+    private BoardModel board;
     private MatchModel displayMatch;
 
     BoardDisplay(BoardController boardController) {
-        this.boardController = boardController;
         boardController.setSetDisplayMatchHandler(this::setDisplayMatchHandler);
         boardController.setUpdateBoardDisplayHandler(this::updateBoardDisplayHandler);
     }
@@ -24,10 +24,39 @@ class BoardDisplay extends JPanel {
     }
 
     private void updateBoardDisplayHandler(BoardModel board) {
-
+        this.board = board;
+        repaint();
     }
 
     private void setDisplayMatchHandler(MatchModel displayMatch) {
         this.displayMatch = displayMatch;
+    }
+
+    @Override
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+
+        if (board == null)
+            return;
+
+        int boardSize = board.size();
+        int letterSize = Settings.BOARD_DISPLAY_SIZE / boardSize;
+
+        java.util.List<PointModel> allPoints = board.getAllPoints();
+        for (PointModel point : allPoints)
+            drawLetter(graphics, point, letterSize);
+    }
+
+    private void drawLetter(Graphics graphics, PointModel point, int letterSize) {
+        boolean isMatch = displayMatch != null && displayMatch.hasPoint(point);
+        Color backgroundColor = isMatch ? Settings.LETTER_MATCH_BACKGROUND_COLOR : Settings.LETTER_BACKGROUND_COLOR;
+        Color foregroundColor = isMatch ? Settings.LETTER_MATCH_FOREGROUND_COLOR : Settings.LETTER_FOREGROUND_COLOR;
+
+        graphics.setColor(backgroundColor);
+        graphics.fillRect(point.x * letterSize, point.y * letterSize, letterSize, letterSize);
+
+        graphics.setColor(foregroundColor);
+        Character letter = board.getLetter(point);
+        graphics.drawString(letter.toString(), point.x * letterSize, point.y * letterSize);
     }
 }

@@ -1,8 +1,8 @@
 package models;
 
 public class PointModel {
-    final int x;
-    final int y;
+    public final int x;
+    public final int y;
 
     /**
      * Initialize the point using the given X and Y positions.

@@ -27,12 +27,13 @@ public class MatchModel {
     }
 
     /**
-     * Get the points used for the match.
+     * Check if a point is included in this match.
      *
-     * @return Points used for the match.
+     * @param point Point to check.
+     * @return True if the point is included, false otherwise.
      */
-    public Set<PointModel> getPoints() {
-        return points;
+    public boolean hasPoint(PointModel point) {
+        return points.contains(point);
     }
 
     /**

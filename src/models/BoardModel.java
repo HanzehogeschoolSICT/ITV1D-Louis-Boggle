@@ -46,6 +46,15 @@ public class BoardModel {
     }
 
     /**
+     * Get the size of the board.
+     *
+     * @return Size of the board.
+     */
+    public int size() {
+        return size;
+    }
+
+    /**
      * Get all surrounding points for the given point
      *
      * @param point Point to get surrounding points for.
