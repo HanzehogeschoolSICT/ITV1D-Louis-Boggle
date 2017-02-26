@@ -75,6 +75,6 @@ class TopControlsDisplay extends JPanel {
         // The board only has to be solved once.
         solveBoardButton.setEnabled(false);
 
-        displaySolveWorker.execute();
+        displaySolveWorker.start();
     }
 }

@@ -17,8 +17,14 @@ public class DisplaySolveWorker extends SwingWorker<Void, Void> {
     public DisplaySolveWorker(BoardController boardController, JComponent... components) {
         this.boardController = boardController;
         this.components = components;
+    }
 
+    /**
+     * Start solving the board.
+     */
+    public void start() {
         setComponentsState(false);
+        execute();
     }
 
     /**
@@ -29,7 +35,6 @@ public class DisplaySolveWorker extends SwingWorker<Void, Void> {
     @Override
     protected Void doInBackground() {
         boardController.solveBoard();
-
         return null;
     }
 
