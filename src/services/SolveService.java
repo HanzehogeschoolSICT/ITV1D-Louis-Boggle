@@ -4,11 +4,16 @@ import helpers.WordHelper;
 import models.BoardModel;
 import models.MatchModel;
 import models.PointModel;
+import models.SolveWorkerDataModel;
+import workers.SolveWorker;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class SolveService {
     private final BoardModel board;
@@ -26,7 +31,7 @@ public class SolveService {
     public SolveService(BoardModel board, Set<String> words) {
         this.board = board;
         this.words = words;
-        matches = new ArrayList<>();
+        matches = Collections.synchronizedList(new ArrayList<>());
 
         WordHelper wordHelper = WordHelper.getInstance();
         longestWordLength = wordHelper.getLongestWordLength(words);
@@ -50,53 +55,22 @@ public class SolveService {
     private void solve() {
         List<PointModel> allPoints = board.getAllPoints();
 
+        int processors = Runtime.getRuntime().availableProcessors();
+        ExecutorService executorService = Executors.newFixedThreadPool(processors);
+        SolveWorkerDataModel solveWorkerData = new SolveWorkerDataModel(board, words, matches, longestWordLength);
+
         for (PointModel point : allPoints)
-            visitPoint("", point, new HashSet<>());
+            executorService.execute(new SolveWorker(solveWorkerData, point));
 
-        isSolved = true;
-    }
+        executorService.shutdown();
 
-    /**
-     * Visit the given point (if allowed) and check for a match in the list of words.
-     *
-     * @param currentWord   Current chain of letters.
-     * @param point         Point to visit.
-     * @param visitedPoints Points which already have been visited.
-     */
-    private void visitPoint(String currentWord, PointModel point, Set<PointModel> visitedPoints) {
-        // Check if the point has already been visited (this is not allowed).
-        if (visitedPoints.contains(point))
-            return;
-
-        char letter = board.getLetter(point);
-        visitedPoints.add(point);
-        currentWord += letter;
-
-        checkForMatch(currentWord, visitedPoints);
-
-        // Prevent unnecessary operations if the current word length exceeds the longest word length.
-        if (currentWord.length() >= longestWordLength)
-            return;
-
-        List<PointModel> surroundingPoints = board.getSurroundingPoints(point);
-        for (PointModel surroundingPoint : surroundingPoints) {
-            // Create a copy of the set to prevent different paths from sharing visited points.
-            Set<PointModel> visitedPointsCopy = new HashSet<>(visitedPoints);
-            visitPoint(currentWord, surroundingPoint, visitedPointsCopy);
+        try {
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            isSolved = true;
+        } catch (InterruptedException exception) {
+            exception.printStackTrace();
         }
     }
 
-    /**
-     * Check if the current word matches any of the words.
-     *
-     * @param currentWord   Word to check for.
-     * @param visitedPoints Visited points for the current word.
-     */
-    private void checkForMatch(String currentWord, Set<PointModel> visitedPoints) {
-        if (!words.contains(currentWord))
-            return;
 
-        MatchModel match = new MatchModel(currentWord, visitedPoints);
-        matches.add(match);
-    }
 }
