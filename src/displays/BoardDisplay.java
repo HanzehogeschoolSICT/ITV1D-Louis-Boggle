@@ -44,10 +44,10 @@ class BoardDisplay extends JPanel {
 
         java.util.List<PointModel> allPoints = board.getAllPoints();
         for (PointModel point : allPoints)
-            drawLetter(graphics, point, letterSize);
+            drawPoint(graphics, point, letterSize);
     }
 
-    private void drawLetter(Graphics graphics, PointModel point, int letterSize) {
+    private void drawPoint(Graphics graphics, PointModel point, int letterSize) {
         boolean isMatch = displayMatch != null && displayMatch.hasPoint(point);
         Color backgroundColor = isMatch ? Settings.LETTER_MATCH_BACKGROUND_COLOR : Settings.LETTER_BACKGROUND_COLOR;
         Color foregroundColor = isMatch ? Settings.LETTER_MATCH_FOREGROUND_COLOR : Settings.LETTER_FOREGROUND_COLOR;
@@ -56,7 +56,16 @@ class BoardDisplay extends JPanel {
         graphics.fillRect(point.x * letterSize, point.y * letterSize, letterSize, letterSize);
 
         graphics.setColor(foregroundColor);
-        Character letter = board.getLetter(point);
-        graphics.drawString(letter.toString(), point.x * letterSize, point.y * letterSize);
+        drawLetterInPoint(graphics, point, letterSize);
+    }
+
+    private void drawLetterInPoint(Graphics graphics, PointModel point, int letterSize) {
+        String letter = ((Character)board.getLetter(point)).toString();
+        FontMetrics fontMetrics = graphics.getFontMetrics();
+
+        int x = point.x * letterSize + ((letterSize - fontMetrics.stringWidth(letter)) / 2);
+        int y = point.y * letterSize + ((letterSize + fontMetrics.getHeight() / 2) / 2);
+
+        graphics.drawString(letter, x, y);
     }
 }
