@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Log {
-    private static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
     /**
      * Send an informational message to the console using a formatted string.

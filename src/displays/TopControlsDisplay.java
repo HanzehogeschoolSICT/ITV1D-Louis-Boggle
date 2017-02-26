@@ -2,6 +2,7 @@ package displays;
 
 import controllers.BoardController;
 import data.Settings;
+import workers.DisplaySolveWorker;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 class TopControlsDisplay extends JPanel {
     private final BoardController boardController;
     private JSpinner boardSizeSpinner;
+    private JButton newBoardButton;
     private JButton solveBoardButton;
 
     /**
@@ -35,7 +37,7 @@ class TopControlsDisplay extends JPanel {
         boardSizeSpinner = new JSpinner(boardSizeModel);
         add(boardSizeSpinner);
 
-        JButton newBoardButton = new JButton("New Board");
+        newBoardButton = new JButton("New Board");
         newBoardButton.addActionListener(this::newBoardHandler);
         add(newBoardButton);
     }
@@ -67,7 +69,12 @@ class TopControlsDisplay extends JPanel {
      * @param actionEvent Event for the request.
      */
     private void solveBoardHandler(ActionEvent actionEvent) {
+        DisplaySolveWorker displaySolveWorker = new DisplaySolveWorker(boardController,
+                boardSizeSpinner, newBoardButton);
+
+        // The board only has to be solved once.
         solveBoardButton.setEnabled(false);
-        boardController.solveBoard();
+
+        displaySolveWorker.execute();
     }
 }
