@@ -7,6 +7,8 @@ import models.PointModel;
 import models.SolveWorkerDataModel;
 import workers.SolveWorker;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,8 +41,13 @@ public class SolveService {
      * @return All matching words for the board.
      */
     public List<MatchModel> getMatches() {
-        if (!isSolved)
+        if (!isSolved) {
+            Instant start = Instant.now();
             solve();
+
+            long duration = Duration.between(start, Instant.now()).toMillis();
+            Log.info("Solving took %d milliseconds", duration);
+        }
 
         Collections.sort(matches);
         return matches;
