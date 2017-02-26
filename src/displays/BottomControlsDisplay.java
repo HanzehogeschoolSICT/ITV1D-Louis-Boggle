@@ -12,6 +12,11 @@ class BottomControlsDisplay extends JPanel {
     private JComboBox<MatchModel> matchesComboBox;
     private JComboBox<String> noMatchesComboBox;
 
+    /**
+     * Initialize the bottom controls display.
+     *
+     * @param boardController Board controller to use.
+     */
     BottomControlsDisplay(BoardController boardController) {
         this.boardController = boardController;
         boardController.setUpdateMatchesHandler(this::updateMatchesHandler);
@@ -19,6 +24,9 @@ class BottomControlsDisplay extends JPanel {
         initializeMatches();
     }
 
+    /**
+     * Initialize the controls showing the matches.
+     */
     private void initializeMatches() {
         JLabel matchesLabel = new JLabel("Matched words:");
         add(matchesLabel);
@@ -35,6 +43,9 @@ class BottomControlsDisplay extends JPanel {
         checkForMatches();
     }
 
+    /**
+     * Check if any matches have been found and adjust control accordingly.
+     */
     private void checkForMatches() {
         boolean hasItems = matchesComboBox.getItemCount() > 0;
 
@@ -42,6 +53,11 @@ class BottomControlsDisplay extends JPanel {
         noMatchesComboBox.setVisible(!hasItems);
     }
 
+    /**
+     * Handle a match selection.
+     *
+     * @param actionEvent Event for the selection.
+     */
     private void matchSelectedHandler(ActionEvent actionEvent) {
         JComboBox matchesComboBox = (JComboBox) actionEvent.getSource();
         MatchModel match = (MatchModel) matchesComboBox.getSelectedItem();
@@ -49,6 +65,11 @@ class BottomControlsDisplay extends JPanel {
         boardController.displayMatch(match);
     }
 
+    /**
+     * Handle an update of found matches.
+     *
+     * @param matches List of found matches.
+     */
     private void updateMatchesHandler(List<MatchModel> matches) {
         matchesComboBox.removeAllItems();
 

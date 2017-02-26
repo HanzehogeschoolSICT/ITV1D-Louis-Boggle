@@ -6,6 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainDisplay extends JFrame {
+    /**
+     * Initialize the main display.
+     *
+     * @param boardController Board controller to use.
+     */
     public MainDisplay(BoardController boardController) {
         setTitle("Sorting");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -23,6 +28,11 @@ public class MainDisplay extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Initialize all the sub views for the display.
+     *
+     * @param boardController Board controller to use.
+     */
     private void initializeViews(BoardController boardController) {
         TopControlsDisplay topControlsDisplay = new TopControlsDisplay(boardController);
         add(topControlsDisplay);
@@ -34,6 +44,9 @@ public class MainDisplay extends JFrame {
         add(bottomControlsDisplay);
     }
 
+    /**
+     * Try to set the system look and feel.
+     */
     private void setSystemLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
