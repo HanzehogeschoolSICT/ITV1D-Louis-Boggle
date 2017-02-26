@@ -2,7 +2,7 @@ package models;
 
 import java.util.Set;
 
-public class MatchModel {
+public class MatchModel implements Comparable<MatchModel> {
     private final String word;
     private final Set<PointModel> points;
 
@@ -25,6 +25,17 @@ public class MatchModel {
      */
     public boolean hasPoint(PointModel point) {
         return points.contains(point);
+    }
+
+    /**
+     * Compare this match model to another match model.
+     *
+     * @param other Other match model.
+     * @return Integer indicating equality (less, equal or greater).
+     */
+    @Override
+    public int compareTo(MatchModel other) {
+        return word.compareTo(other.word);
     }
 
     /**

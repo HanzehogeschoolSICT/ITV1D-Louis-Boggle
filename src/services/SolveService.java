@@ -41,6 +41,7 @@ public class SolveService {
         if (!isSolved)
             solve();
 
+        Collections.sort(matches);
         return matches;
     }
 
