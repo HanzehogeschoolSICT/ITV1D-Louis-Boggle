@@ -1,9 +1,10 @@
+import controllers.BoardController;
+import data.Settings;
+import displays.MainDisplay;
 import models.BoardModel;
-import models.MatchModel;
 import services.SolveService;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 class Bootstrap {
@@ -13,10 +14,11 @@ class Bootstrap {
      * @param args Any arguments.
      */
     public static void main(String[] args) {
-        BoardModel board = new BoardModel(16);
-
         Set<String> words = new HashSet<>();
+        BoardModel board = new BoardModel(Settings.BOARD_SIZE);
         SolveService solveService = new SolveService(board, words);
-        List<MatchModel> matches = solveService.getMatches();
+
+        BoardController boardController = new BoardController();
+        new MainDisplay(boardController);
     }
 }
