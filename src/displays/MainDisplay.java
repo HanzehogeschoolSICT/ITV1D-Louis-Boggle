@@ -1,6 +1,7 @@
 package displays;
 
 import controllers.BoardController;
+import data.Log;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,7 +55,7 @@ public class MainDisplay extends JFrame {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(this);
         } catch (Exception exception) {
-            System.out.println("Failed to apply system look and feel.");
+            Log.error("Failed to apply system look and feel");
         }
     }
 

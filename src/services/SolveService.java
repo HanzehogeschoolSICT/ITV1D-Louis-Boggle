@@ -1,5 +1,6 @@
 package services;
 
+import data.Log;
 import models.BoardModel;
 import models.MatchModel;
 import models.PointModel;
@@ -63,9 +64,10 @@ public class SolveService {
 
         try {
             executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            Log.info("Found %d matches", matches.size());
             isSolved = true;
         } catch (InterruptedException exception) {
-            exception.printStackTrace();
+            Log.error("Solver was interrupted unexpectedly");
         }
     }
 }

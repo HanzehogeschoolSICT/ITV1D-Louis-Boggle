@@ -1,4 +1,5 @@
 import controllers.BoardController;
+import data.Log;
 import displays.MainDisplay;
 import helpers.LetterHelper;
 
@@ -19,8 +20,9 @@ class Bootstrap {
         if (args.length >= 2 && args[0].equals("--words"))
             path = args[1];
 
-        System.out.println(String.format("Loading words from %s", path));
+        Log.info("Loading words from %s", path);
         Set<String> words = loadWords(path);
+        Log.info("Loaded %d words", words.size());
 
         BoardController boardController = new BoardController(words);
         new MainDisplay(boardController);
@@ -48,7 +50,7 @@ class Bootstrap {
             bufferedReader.close();
             fileReader.close();
         } catch (Exception exception) {
-            System.out.println(String.format("Words file not found: %s", path));
+            Log.error("Words file not found: %s", path);
         }
 
         return words;
@@ -69,7 +71,7 @@ class Bootstrap {
         LetterHelper letterHelper = LetterHelper.getInstance();
 
         if (!letterHelper.allLetters(word)) {
-            System.out.println(String.format("Invalid word not added: %s", word));
+            Log.error("Invalid word not added: %s", word);
             return;
         }
 
