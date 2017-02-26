@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 class TopControlsDisplay extends JPanel {
     private final BoardController boardController;
     private JSpinner boardSizeSpinner;
+    private JButton solveBoardButton;
 
     /**
      * Initialize the top controls display.
@@ -47,14 +48,16 @@ class TopControlsDisplay extends JPanel {
     private void newBoardHandler(ActionEvent actionEvent) {
         int boardSize = (int) boardSizeSpinner.getValue();
         boardController.setBoard(boardSize);
+        solveBoardButton.setEnabled(true);
     }
 
     /**
      * Initialize controls for solving boards.
      */
     private void initializeSolveBoard() {
-        JButton solveBoardButton = new JButton("Solve Board");
+        solveBoardButton = new JButton("Solve Board");
         solveBoardButton.addActionListener(this::solveBoardHandler);
+        solveBoardButton.setEnabled(false);
         add(solveBoardButton);
     }
 
@@ -64,6 +67,7 @@ class TopControlsDisplay extends JPanel {
      * @param actionEvent Event for the request.
      */
     private void solveBoardHandler(ActionEvent actionEvent) {
+        solveBoardButton.setEnabled(false);
         boardController.solveBoard();
     }
 }
