@@ -55,11 +55,11 @@ public class SolveWorker implements Runnable {
         visitedPoints.add(point);
         currentWord += letter;
 
-        if (!checkForMatch(currentWord, visitedPoints)) {
-            // Prevent unnecessary operations if the current word doesn't have a match already.
-            if (!wordHelper.hasPartialMatch(currentWord))
-                return;
-        }
+        checkForMatch(currentWord, visitedPoints);
+
+        // Prevent unnecessary operations if the current word doesn't have a match already.
+        if (!wordHelper.hasPartialMatch(currentWord))
+            return;
 
         List<PointModel> surroundingPoints = board.getSurroundingPoints(point);
         for (PointModel surroundingPoint : surroundingPoints) {
@@ -74,15 +74,12 @@ public class SolveWorker implements Runnable {
      *
      * @param currentWord   Word to check for.
      * @param visitedPoints Visited points for the current word.
-     * @return True if the current word has any match.
      */
-    private boolean checkForMatch(String currentWord, Set<PointModel> visitedPoints) {
+    private void checkForMatch(String currentWord, Set<PointModel> visitedPoints) {
         if (!words.contains(currentWord))
-            return false;
+            return;
 
         MatchModel match = new MatchModel(currentWord, visitedPoints);
         matches.add(match);
-
-        return true;
     }
 }
