@@ -73,8 +73,10 @@ class BottomControlsDisplay extends JPanel {
     private void updateMatchesHandler(List<MatchModel> matches) {
         matchesComboBox.removeAllItems();
 
-        for (MatchModel match : matches)
-            matchesComboBox.addItem(match);
+        if (matches != null) {
+            for (MatchModel match : matches)
+                matchesComboBox.addItem(match);
+        }
 
         checkForMatches();
     }
