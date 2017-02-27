@@ -17,5 +17,5 @@ public class Settings {
     public static final LetterColorModel LETTER_MATCH_COLOR = new LetterColorModel(
             new Color(0, 150, 136), new Color(255, 255, 255));
     public static final LetterColorModel LETTER_START_COLOR = new LetterColorModel(
-            new Color(0, 121, 107), new Color(255, 255, 255));
+            new Color(96, 125, 139), new Color(255, 255, 255));
 }
