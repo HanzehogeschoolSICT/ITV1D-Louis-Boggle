@@ -43,6 +43,9 @@ public class MainDisplay extends JFrame {
         BoardDisplay boardDisplay = new BoardDisplay(boardController);
         add(boardDisplay);
 
+        LegendDisplay legendDisplay = new LegendDisplay();
+        add(legendDisplay);
+
         BottomControlsDisplay bottomControlsDisplay = new BottomControlsDisplay(boardController);
         add(bottomControlsDisplay);
     }
