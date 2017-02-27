@@ -58,6 +58,6 @@ public class MatchModel implements Comparable<MatchModel> {
      */
     @Override
     public String toString() {
-        return String.format("Word: %s, points: %d", word, points.size());
+        return String.format("%s at %s", word, startPoint);
     }
 }

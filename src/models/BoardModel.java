@@ -114,16 +114,6 @@ public class BoardModel {
     }
 
     /**
-     * Check if the given position is the last index of the board.
-     *
-     * @param position Position to check.
-     * @return True if it is the last index, false otherwise.
-     */
-    private boolean isLastIndex(int position) {
-        return position == size - 1;
-    }
-
-    /**
      * Get a string representation of the board.
      *
      * @return String representation of the board.
@@ -136,11 +126,11 @@ public class BoardModel {
             for (int y = 0; y < size; y++) {
                 boardBuilder.append(board[x][y]);
 
-                if (!isLastIndex(y))
+                if (y == size - 1)
                     boardBuilder.append(' ');
             }
 
-            if (!isLastIndex(x))
+            if (x == size - 1)
                 boardBuilder.append('\n');
         }
 
