@@ -37,18 +37,14 @@ class Bootstrap {
     private static Set<String> loadWords(String path) {
         Set<String> words = new HashSet<>();
 
-        try {
-            FileReader fileReader = new FileReader(path);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+        try (FileReader fileReader = new FileReader(path);
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             String line = bufferedReader.readLine();
 
             while (line != null) {
                 addWord(words, line);
                 line = bufferedReader.readLine();
             }
-
-            bufferedReader.close();
-            fileReader.close();
         } catch (Exception exception) {
             Log.error("Words file not found: %s", path);
         }
