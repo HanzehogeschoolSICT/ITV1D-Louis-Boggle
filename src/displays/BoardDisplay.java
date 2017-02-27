@@ -3,6 +3,7 @@ package displays;
 import controllers.BoardController;
 import data.Settings;
 import models.BoardModel;
+import models.LetterColorModel;
 import models.MatchModel;
 import models.PointModel;
 
@@ -104,15 +105,27 @@ class BoardDisplay extends JPanel {
      * @param letterSize Letter size per point.
      */
     private void drawPoint(Graphics graphics, PointModel point, int letterSize) {
-        boolean isMatch = displayMatch != null && displayMatch.hasPoint(point);
-        Color backgroundColor = isMatch ? Settings.LETTER_MATCH_BACKGROUND_COLOR : Settings.LETTER_BACKGROUND_COLOR;
-        Color foregroundColor = isMatch ? Settings.LETTER_MATCH_FOREGROUND_COLOR : Settings.LETTER_FOREGROUND_COLOR;
+        LetterColorModel letterColor = getLetterColor(point);
 
-        graphics.setColor(backgroundColor);
+        graphics.setColor(letterColor.backgroundColor);
         graphics.fillRect(point.x * letterSize, point.y * letterSize, letterSize, letterSize);
 
-        graphics.setColor(foregroundColor);
+        graphics.setColor(letterColor.foregroundColor);
         drawLetterInPoint(graphics, point, letterSize);
+    }
+
+    /**
+     * Get the background and foreground color to draw the letter with.
+     *
+     * @param point Point to get the color for.
+     * @return Background and foreground color to use.
+     */
+    private LetterColorModel getLetterColor(PointModel point) {
+        if (displayMatch == null || !displayMatch.hasPoint(point))
+            return Settings.LETTER_COLOR;
+
+        return displayMatch.isStartPoint(point) ?
+                Settings.LETTER_START_COLOR : Settings.LETTER_MATCH_COLOR;
     }
 
     /**

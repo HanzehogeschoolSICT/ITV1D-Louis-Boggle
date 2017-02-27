@@ -4,17 +4,30 @@ import java.util.Set;
 
 public class MatchModel implements Comparable<MatchModel> {
     private final String word;
+    private final PointModel startPoint;
     private final Set<PointModel> points;
 
     /**
      * Initialize the match model using the given word and points.
      *
-     * @param word   Matched word.
-     * @param points Points used for the match.
+     * @param word       Matched word.
+     * @param startPoint Start point for the match.
+     * @param points     Points used for the match.
      */
-    public MatchModel(String word, Set<PointModel> points) {
+    public MatchModel(String word, PointModel startPoint, Set<PointModel> points) {
         this.word = word;
+        this.startPoint = startPoint;
         this.points = points;
+    }
+
+    /**
+     * Check if a point is the start point for this match.
+     *
+     * @param point Point to check.
+     * @return True if the point is the start point, false otherwise.
+     */
+    public boolean isStartPoint(PointModel point) {
+        return startPoint.equals(point);
     }
 
     /**

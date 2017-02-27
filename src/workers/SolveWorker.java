@@ -79,7 +79,7 @@ public class SolveWorker implements Runnable {
         if (!words.contains(currentWord))
             return;
 
-        MatchModel match = new MatchModel(currentWord, visitedPoints);
+        MatchModel match = new MatchModel(currentWord, startPoint, visitedPoints);
         matches.add(match);
     }
 }
