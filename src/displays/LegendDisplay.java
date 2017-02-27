@@ -26,7 +26,7 @@ class LegendDisplay extends JPanel {
      * Add a legend color to the legend.
      *
      * @param letterColorModel Color to use for the legend color.
-     * @param name Name to display for the legend color.
+     * @param name             Name to display for the legend color.
      */
     private void addLegendColor(LetterColorModel letterColorModel, String name) {
         LegendColorDisplay legendColorDisplay = new LegendColorDisplay(letterColorModel, legendColorSize);
