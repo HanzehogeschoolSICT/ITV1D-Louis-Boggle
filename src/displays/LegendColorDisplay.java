@@ -5,7 +5,7 @@ import models.LetterColorModel;
 import javax.swing.*;
 import java.awt.*;
 
-class LegendColorDisplay extends JPanel{
+class LegendColorDisplay extends JPanel {
     private final Color color;
     private final Dimension preferredSize;
 
@@ -13,7 +13,7 @@ class LegendColorDisplay extends JPanel{
      * Initialize the legend color display using the given color and size.
      *
      * @param letterColor Color to display in the legend.
-     * @param size Size of the color block to display.
+     * @param size        Size of the color block to display.
      */
     LegendColorDisplay(LetterColorModel letterColor, int size) {
         color = letterColor.backgroundColor;
@@ -44,5 +44,8 @@ class LegendColorDisplay extends JPanel{
 
         graphics.setColor(color);
         graphics.fillRect(0, 0, width, height);
+
+        graphics.setColor(color.darker());
+        graphics.drawRect(0, 0, width - 1, height - 1);
     }
 }
