@@ -1,11 +1,19 @@
 package displays;
 
-import data.Log;
+import data.DataManager;
 import data.Settings;
+import javafx.beans.property.Property;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import models.BoardModel;
+import models.MatchModel;
+import services.SolveService;
+
+import java.util.List;
+import java.util.Set;
 
 public class TopControlsDisplay {
     @FXML
@@ -28,7 +36,10 @@ public class TopControlsDisplay {
     @FXML
     private void newBoardHandler(ActionEvent actionEvent) {
         int boardSize = boardSizeSpinner.getValue();
-        Log.info("Board size: %d", boardSize);
+        BoardModel boardModel = new BoardModel(boardSize);
+
+        Property<BoardModel> boardProperty = DataManager.getBoardProperty();
+        boardProperty.setValue(boardModel);
     }
 
     /**
@@ -38,6 +49,13 @@ public class TopControlsDisplay {
      */
     @FXML
     private void solveBoardHandler(ActionEvent actionEvent) {
-        Log.info("Solve board");
+        Property<BoardModel> boardProperty = DataManager.getBoardProperty();
+        BoardModel board = boardProperty.getValue();
+
+        Set<String> words = DataManager.getWords();
+        List<MatchModel> matches = new SolveService(board, words).getMatches();
+
+        ObservableList<MatchModel> matchList = DataManager.getMatchList();
+        matchList.setAll(matches);
     }
 }

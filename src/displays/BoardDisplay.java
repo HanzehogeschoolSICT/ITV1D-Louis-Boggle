@@ -1,6 +1,8 @@
 package displays;
 
+import data.DataManager;
 import data.Settings;
+import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -25,9 +27,15 @@ public class BoardDisplay {
     @FXML
     public void initialize() {
         graphics = boardCanvas.getGraphicsContext2D();
+
+        Property<BoardModel> boardProperty = DataManager.getBoardProperty();
+        boardProperty.addListener((observable, oldValue, newValue) -> updateBoard(newValue, match));
+
+        Property<MatchModel> matchProperty = DataManager.getMatchProperty();
+        matchProperty.addListener((observable, oldValue, newValue) -> updateBoard(board, newValue));
     }
 
-    public void updateBoard(BoardModel board, MatchModel match) {
+    private void updateBoard(BoardModel board, MatchModel match) {
         this.board = board;
         this.match = match;
 

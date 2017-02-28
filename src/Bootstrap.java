@@ -1,17 +1,20 @@
-import controllers.BoardController;
+import data.DataManager;
 import data.Log;
-import displays.MainDisplay;
 import helpers.LetterHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.HashSet;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,37 +29,54 @@ public class Bootstrap extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
+        String wordsPath = getWordsPath();
+        loadWords(wordsPath);
+
+        showGui(primaryStage);
+        Set<String> words = DataManager.getWords();
+
+        if (words.size() == 0)
+            showNoWordsMessage(primaryStage);
+    }
+
+    private void showGui(Stage stage) {
+        URL mainDisplayUrl = Bootstrap.class.getResource("/MainDisplay.fxml");
+
+        try {
+            Parent mainDisplay = FXMLLoader.load(mainDisplayUrl);
+            stage.setTitle("Boggle");
+
+            stage.setScene(new Scene(mainDisplay));
+            stage.setResizable(false);
+            stage.sizeToScene();
+
+            stage.show();
+        } catch (IOException exception) {
+            Log.error("Failed to load GUI");
+        }
+    }
+
+    private String getWordsPath() {
         Parameters parameters = getParameters();
         Map<String, String> namedParameters = parameters.getNamed();
 
         String path = System.getProperty("user.dir") + File.separatorChar + "words.txt";
-        if (namedParameters.containsKey("--words"))
-            path = namedParameters.get("--words");
 
-        Log.info("Loading words from %s", path);
-        Set<String> words = loadWords(path);
-        Log.info("Loaded %d words", words.size());
+        if (namedParameters.containsKey("words"))
+            path = namedParameters.get("words");
 
-        BoardController boardController = new BoardController(words);
-        //new MainDisplay(boardController);
-
-        Parent mainDisplay = FXMLLoader.load(getClass().getResource("/MainDisplay.fxml"));
-        primaryStage.setTitle("Boggle");
-        primaryStage.setScene(new Scene(mainDisplay));
-        primaryStage.setResizable(false);
-        primaryStage.sizeToScene();
-        primaryStage.show();
+        return path;
     }
 
     /**
      * Try to load words from a file.
      *
      * @param path Path to the file containing words.
-     * @return Set of found words.
      */
-    private static Set<String> loadWords(String path) {
-        Set<String> words = new HashSet<>();
+    private void loadWords(String path) {
+        Log.info("Loading words from %s", path);
+        Set<String> words = DataManager.getWords();
 
         try (FileReader fileReader = new FileReader(path);
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
@@ -70,7 +90,7 @@ public class Bootstrap extends Application {
             Log.error("Words file not found: %s", path);
         }
 
-        return words;
+        Log.info("Loaded %d words", words.size());
     }
 
     /**
@@ -93,5 +113,23 @@ public class Bootstrap extends Application {
         }
 
         words.add(word);
+    }
+
+    /**
+     * Show a message indicating that no words have been loaded.
+     */
+    private void showNoWordsMessage(Stage owner) {
+        String message = String.format("No words have been loaded. Please check the console output.%n%n" +
+                "By default, words.txt in the working directory of this program is loaded. " +
+                "To use a specific file, start this program using the words option.%n%n" +
+                "Example: java -jar Boggle.jar --words=C:\\words.txt");
+
+        Alert alert = new Alert(Alert.AlertType.WARNING, message, ButtonType.OK);
+
+        alert.setTitle("No words loaded");
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(owner);
+
+        alert.show();
     }
 }
