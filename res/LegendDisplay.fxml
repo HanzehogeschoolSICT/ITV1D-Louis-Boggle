@@ -4,8 +4,8 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
-<HBox xmlns="http://javafx.com/javafx/8.0.112"
-      xmlns:fx="http://javafx.com/fxml/1"
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/8.0.112"
       fx:controller="displays.LegendDisplay"
       alignment="CENTER" spacing="10.0">
     <padding>
@@ -13,12 +13,12 @@
     </padding>
     <Label text="No Match">
         <graphic>
-            <Canvas height="10.0" width="10.0" fx:id="noMatchColorCanvas" />
+            <Canvas height="10.0" width="10.0" fx:id="noMatchColorCanvas"/>
         </graphic>
     </Label>
     <Label text="Match">
         <graphic>
-            <Canvas height="10.0" width="10.0" fx:id="matchColorCanvas" />
+            <Canvas height="10.0" width="10.0" fx:id="matchColorCanvas"/>
         </graphic>
     </Label>
     <Label text="Match Start">

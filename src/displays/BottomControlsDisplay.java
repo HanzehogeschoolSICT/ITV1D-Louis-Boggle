@@ -14,27 +14,33 @@ public class BottomControlsDisplay {
     @FXML
     private ComboBox<MatchModel> matchesComboBox;
 
+    /**
+     * Initialize the bottom controls display.
+     */
     @FXML
     public void initialize() {
         ObservableList<MatchModel> matchList = DataManager.getMatchList();
-        matchList.addListener((ListChangeListener<MatchModel>) c -> matchListChanged());
+        matchList.addListener((ListChangeListener<MatchModel>) c -> onMatchListChanged());
         matchesComboBox.setItems(matchList);
     }
 
     /**
-     * Handle a match selection.
+     * Handle a matches combo box action.
      *
-     * @param actionEvent Event for the selection.
+     * @param actionEvent Event for the action.
      */
     @FXML
-    private void matchSelectedHandler(ActionEvent actionEvent) {
+    private void onMatchesComboBoxAction(ActionEvent actionEvent) {
         MatchModel match = matchesComboBox.getSelectionModel().getSelectedItem();
 
         Property<MatchModel> matchProperty = DataManager.getMatchProperty();
         matchProperty.setValue(match);
     }
 
-    private void matchListChanged() {
+    /**
+     * Handle a change in the mast list.
+     */
+    private void onMatchListChanged() {
         ObservableList<MatchModel> matchList = matchesComboBox.getItems();
 
         boolean hasMatches = matchList.size() != 0;
@@ -43,6 +49,7 @@ public class BottomControlsDisplay {
         if (!hasMatches)
             return;
 
+        // Select the first item to make sure there's always a displayed solution.
         SelectionModel<MatchModel> selectionModel = matchesComboBox.getSelectionModel();
         selectionModel.selectFirst();
     }

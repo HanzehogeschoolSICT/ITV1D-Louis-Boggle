@@ -22,6 +22,9 @@ public class TopControlsDisplay {
     @FXML
     private Button solveBoardButton;
 
+    /**
+     * Initialize the top controls display.
+     */
     @FXML
     public void initialize() {
         SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValueFactory =
@@ -32,12 +35,12 @@ public class TopControlsDisplay {
     }
 
     /**
-     * Handle new board creation request.
+     * Handle a new board button action.
      *
-     * @param actionEvent Event for the request.
+     * @param actionEvent Event for the action.
      */
     @FXML
-    private void newBoardHandler(ActionEvent actionEvent) {
+    private void onNewBoardButtonAction(ActionEvent actionEvent) {
         solveBoardButton.setDisable(false);
 
         int boardSize = boardSizeSpinner.getValue();
@@ -51,12 +54,12 @@ public class TopControlsDisplay {
     }
 
     /**
-     * Handle board solving request.
+     * Handle a solve board button action.
      *
-     * @param actionEvent Event for the request.
+     * @param actionEvent Event for the action.
      */
     @FXML
-    private void solveBoardHandler(ActionEvent actionEvent) {
+    private void onSolveBoardButtonAction(ActionEvent actionEvent) {
         solveBoardButton.setDisable(true);
 
         Property<BoardModel> boardProperty = DataManager.getBoardProperty();

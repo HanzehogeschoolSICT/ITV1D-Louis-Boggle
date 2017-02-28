@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.TextAlignment;
 import models.BoardModel;
 import models.LetterColorModel;
@@ -24,6 +25,9 @@ public class BoardDisplay {
 
     private GraphicsContext graphics;
 
+    /**
+     * Initialize the board display.
+     */
     @FXML
     public void initialize() {
         graphics = boardCanvas.getGraphicsContext2D();
@@ -35,6 +39,12 @@ public class BoardDisplay {
         matchProperty.addListener((observable, oldValue, newValue) -> updateBoard(board, newValue));
     }
 
+    /**
+     * Update the board and display the updated board.
+     *
+     * @param board Board to update.
+     * @param match Match to update.
+     */
     private void updateBoard(BoardModel board, MatchModel match) {
         this.board = board;
         this.match = match;
@@ -42,6 +52,9 @@ public class BoardDisplay {
         drawBoard();
     }
 
+    /**
+     * Draw the current board on the canvas.
+     */
     private void drawBoard() {
         clear();
 
@@ -49,6 +62,7 @@ public class BoardDisplay {
             return;
 
         int boardSize = board.size();
+        // The board is square: height is the same as width.
         double letterSize = boardCanvas.getHeight() / boardSize;
 
         List<PointModel> allPoints = board.getAllPoints();
@@ -56,6 +70,9 @@ public class BoardDisplay {
             drawPoint(match, point, letterSize);
     }
 
+    /**
+     * Clear the canvas.
+     */
     private void clear() {
         double width = boardCanvas.getWidth();
         double height = boardCanvas.getHeight();
@@ -64,7 +81,7 @@ public class BoardDisplay {
     }
 
     /**
-     * Draw a single point using the given graphics.
+     * Draw a single point on the canvas.
      *
      * @param point      Point to draw.
      * @param letterSize Letter size per point.
@@ -96,10 +113,13 @@ public class BoardDisplay {
     /**
      * Draw a letter in a point.
      *
-     * @param point      Point to draw.
+     * @param point      Point to draw the letter in.
      * @param letterSize Letter size per point.
      */
     private void drawLetterInPoint(PointModel point, double letterSize) {
+        // Results in a less blurry board when displaying large boards.
+        graphics.setFontSmoothingType(FontSmoothingType.LCD);
+
         graphics.setTextAlign(TextAlignment.CENTER);
         graphics.setTextBaseline(VPos.CENTER);
 

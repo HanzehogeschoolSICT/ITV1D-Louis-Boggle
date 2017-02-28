@@ -24,6 +24,12 @@ public class LegendDisplay {
         drawLegendColor(matchStartColorCanvas, Settings.LETTER_START_COLOR);
     }
 
+    /**
+     * Draw a legend color on the given canvas.
+     *
+     * @param canvas Canvas to draw the legend color on.
+     * @param color  Color to draw on the canvas.
+     */
     private void drawLegendColor(Canvas canvas, LetterColorModel color) {
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
@@ -34,6 +40,6 @@ public class LegendDisplay {
         double height = canvas.getHeight();
 
         graphicsContext.fillRect(0, 0, width, height);
-        graphicsContext.strokeRect(0, 0, width - 1, height - 1);
+        graphicsContext.strokeRect(0, 0, width, height);
     }
 }

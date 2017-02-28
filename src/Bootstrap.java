@@ -28,6 +28,11 @@ public class Bootstrap extends Application {
         launch(args);
     }
 
+    /**
+     * Start the application.
+     *
+     * @param primaryStage Primary GUI container.
+     */
     @Override
     public void start(Stage primaryStage) {
         String wordsPath = getWordsPath();
@@ -40,6 +45,11 @@ public class Bootstrap extends Application {
             showNoWordsMessage(primaryStage);
     }
 
+    /**
+     * Show the GUI for the application.
+     *
+     * @param stage GUI container to use.
+     */
     private void showGui(Stage stage) {
         URL mainDisplayUrl = Bootstrap.class.getResource("/MainDisplay.fxml");
 
@@ -57,12 +67,19 @@ public class Bootstrap extends Application {
         }
     }
 
+    /**
+     * Get the path to the file containing the words.
+     *
+     * @return Path to the file containing the words.
+     */
     private String getWordsPath() {
         Parameters parameters = getParameters();
         Map<String, String> namedParameters = parameters.getNamed();
 
+        // Default path is in the current working directory.
         String path = System.getProperty("user.dir") + File.separatorChar + "words.txt";
 
+        // The user has specified another path to the file, use it.
         if (namedParameters.containsKey("words"))
             path = namedParameters.get("words");
 

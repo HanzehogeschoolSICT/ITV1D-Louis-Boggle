@@ -12,24 +12,44 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DataManager {
-    private static Property<BoardModel> boardProperty = new SimpleObjectProperty<>();
-    private static Property<MatchModel> matchProperty = new SimpleObjectProperty<>();
+    private static final Property<BoardModel> boardProperty = new SimpleObjectProperty<>();
+    private static final Property<MatchModel> matchProperty = new SimpleObjectProperty<>();
 
-    private static Set<String> words = new HashSet<>();
-    private static ObservableList<MatchModel> matchList = FXCollections.observableList(new ArrayList<>());
+    private static final Set<String> words = new HashSet<>();
+    private static final ObservableList<MatchModel> matchList = FXCollections.observableList(new ArrayList<>());
 
+    /**
+     * Get the board property.
+     *
+     * @return Board property.
+     */
     public static Property<BoardModel> getBoardProperty() {
         return boardProperty;
     }
 
+    /**
+     * Get the match property.
+     *
+     * @return Match property.
+     */
     public static Property<MatchModel> getMatchProperty() {
         return matchProperty;
     }
 
+    /**
+     * Get the set of words to match.
+     *
+     * @return Set of words to match.
+     */
     public static Set<String> getWords() {
         return words;
     }
 
+    /**
+     * Get the list of matches.
+     *
+     * @return List of matches.
+     */
     public static ObservableList<MatchModel> getMatchList() {
         return matchList;
     }
