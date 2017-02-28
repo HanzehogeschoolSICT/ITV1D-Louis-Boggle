@@ -15,6 +15,6 @@
             <Spinner fx:id="boardSizeSpinner" />
         </graphic>
     </Label>
-    <Button mnemonicParsing="false" text="Button" onAction="#newBoardHandler" />
-    <Button mnemonicParsing="false" text="Button" onAction="#solveBoardHandler" />
+    <Button mnemonicParsing="false" text="New Board" onAction="#newBoardHandler" />
+    <Button mnemonicParsing="false" text="Solve Board" onAction="#solveBoardHandler" />
 </HBox>

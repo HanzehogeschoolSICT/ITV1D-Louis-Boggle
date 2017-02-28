@@ -9,17 +9,15 @@ import javafx.scene.control.SpinnerValueFactory;
 
 public class TopControlsDisplay {
     @FXML
-    private Spinner boardSizeSpinner;
+    private Spinner<Integer> boardSizeSpinner;
 
-    /**
-     * Initialize the top controls display.
-     */
-    public TopControlsDisplay() {
-        SpinnerValueFactory spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(
-                Settings.BOARD_MINIMUM_SIZE, Settings.BOARD_MAXIMUM_SIZE,
-                Settings.BOARD_SIZE, Settings.BOARD_STEP_SIZE);
+    @FXML
+    public void initialize () {
+        SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValueFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(Settings.BOARD_MINIMUM_SIZE,
+                        Settings.BOARD_MAXIMUM_SIZE, Settings.BOARD_SIZE, Settings.BOARD_STEP_SIZE);
 
-        //boardSizeSpinner.setValueFactory(spinnerValueFactory);
+        boardSizeSpinner.setValueFactory(spinnerValueFactory);
     }
 
     /**
@@ -29,8 +27,7 @@ public class TopControlsDisplay {
      */
     @FXML
     private void newBoardHandler(ActionEvent actionEvent) {
-        Spinner boardSizeSpinner = (Spinner) actionEvent.getSource();
-        int boardSize = (int)boardSizeSpinner.getValue();
+        int boardSize = boardSizeSpinner.getValue();
         Log.info("Board size: %d", boardSize);
     }
 
