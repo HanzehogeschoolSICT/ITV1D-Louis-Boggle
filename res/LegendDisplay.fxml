@@ -11,17 +11,17 @@
     <padding>
         <Insets bottom="5.0" top="10.0"/>
     </padding>
-    <Label text="No Match">
+    <Label text="No Match" fx:id="noMatchColorLabel">
         <graphic>
             <Canvas height="10.0" width="10.0" fx:id="noMatchColorCanvas"/>
         </graphic>
     </Label>
-    <Label text="Match">
+    <Label text="Match" fx:id="matchColorLabel">
         <graphic>
             <Canvas height="10.0" width="10.0" fx:id="matchColorCanvas"/>
         </graphic>
     </Label>
-    <Label text="Match Start">
+    <Label text="Match Start" fx:id="matchStartColorLabel">
         <graphic>
             <Canvas height="10.0" width="10.0" fx:id="matchStartColorCanvas"/>
         </graphic>
