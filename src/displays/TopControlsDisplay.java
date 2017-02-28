@@ -6,6 +6,7 @@ import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import models.BoardModel;
@@ -18,6 +19,8 @@ import java.util.Set;
 public class TopControlsDisplay {
     @FXML
     private Spinner<Integer> boardSizeSpinner;
+    @FXML
+    private Button solveBoardButton;
 
     @FXML
     public void initialize() {
@@ -35,6 +38,8 @@ public class TopControlsDisplay {
      */
     @FXML
     private void newBoardHandler(ActionEvent actionEvent) {
+        solveBoardButton.setDisable(false);
+
         int boardSize = boardSizeSpinner.getValue();
         BoardModel boardModel = new BoardModel(boardSize);
 
@@ -52,6 +57,8 @@ public class TopControlsDisplay {
      */
     @FXML
     private void solveBoardHandler(ActionEvent actionEvent) {
+        solveBoardButton.setDisable(true);
+
         Property<BoardModel> boardProperty = DataManager.getBoardProperty();
         BoardModel board = boardProperty.getValue();
 
