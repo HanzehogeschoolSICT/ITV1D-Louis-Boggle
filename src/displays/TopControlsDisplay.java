@@ -1,45 +1,25 @@
 package displays;
 
-import controllers.BoardController;
+import data.Log;
 import data.Settings;
-import workers.DisplaySolveWorker;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-
-class TopControlsDisplay extends JPanel {
-    private final BoardController boardController;
-    private JSpinner boardSizeSpinner;
-    private JButton newBoardButton;
-    private JButton solveBoardButton;
+public class TopControlsDisplay {
+    @FXML
+    private Spinner boardSizeSpinner;
 
     /**
      * Initialize the top controls display.
-     *
-     * @param boardController Board controller to use.
      */
-    TopControlsDisplay(BoardController boardController) {
-        this.boardController = boardController;
+    public TopControlsDisplay() {
+        SpinnerValueFactory spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(
+                Settings.BOARD_MINIMUM_SIZE, Settings.BOARD_MAXIMUM_SIZE,
+                Settings.BOARD_SIZE, Settings.BOARD_STEP_SIZE);
 
-        initializeNewBoard();
-        initializeSolveBoard();
-    }
-
-    /**
-     * Initialize controls for creating new boards.
-     */
-    private void initializeNewBoard() {
-        JLabel boardSizeLabel = new JLabel("Board size:");
-        add(boardSizeLabel);
-
-        SpinnerNumberModel boardSizeModel = new SpinnerNumberModel(Settings.BOARD_SIZE,
-                Settings.BOARD_MINIMUM_SIZE, Settings.BOARD_MAXIMUM_SIZE, Settings.BOARD_STEP_SIZE);
-        boardSizeSpinner = new JSpinner(boardSizeModel);
-        add(boardSizeSpinner);
-
-        newBoardButton = new JButton("New Board");
-        newBoardButton.addActionListener(this::newBoardHandler);
-        add(newBoardButton);
+        //boardSizeSpinner.setValueFactory(spinnerValueFactory);
     }
 
     /**
@@ -47,20 +27,11 @@ class TopControlsDisplay extends JPanel {
      *
      * @param actionEvent Event for the request.
      */
+    @FXML
     private void newBoardHandler(ActionEvent actionEvent) {
-        int boardSize = (int) boardSizeSpinner.getValue();
-        boardController.setBoard(boardSize);
-        solveBoardButton.setEnabled(true);
-    }
-
-    /**
-     * Initialize controls for solving boards.
-     */
-    private void initializeSolveBoard() {
-        solveBoardButton = new JButton("Solve Board");
-        solveBoardButton.addActionListener(this::solveBoardHandler);
-        solveBoardButton.setEnabled(false);
-        add(solveBoardButton);
+        Spinner boardSizeSpinner = (Spinner) actionEvent.getSource();
+        int boardSize = (int)boardSizeSpinner.getValue();
+        Log.info("Board size: %d", boardSize);
     }
 
     /**
@@ -68,13 +39,8 @@ class TopControlsDisplay extends JPanel {
      *
      * @param actionEvent Event for the request.
      */
+    @FXML
     private void solveBoardHandler(ActionEvent actionEvent) {
-        DisplaySolveWorker displaySolveWorker = new DisplaySolveWorker(boardController,
-                boardSizeSpinner, newBoardButton);
-
-        // The board only has to be solved once.
-        solveBoardButton.setEnabled(false);
-
-        displaySolveWorker.start();
+        Log.info("Solve board");
     }
 }

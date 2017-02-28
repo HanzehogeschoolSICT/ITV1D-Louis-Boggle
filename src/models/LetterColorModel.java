@@ -1,6 +1,6 @@
 package models;
 
-import java.awt.*;
+import javafx.scene.paint.Color;
 
 public class LetterColorModel {
     public final Color backgroundColor;

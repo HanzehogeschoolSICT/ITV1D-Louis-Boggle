@@ -1,8 +1,7 @@
 package data;
 
+import javafx.scene.paint.Color;
 import models.LetterColorModel;
-
-import java.awt.*;
 
 public class Settings {
     public static final int BOARD_SIZE = 16;
@@ -13,9 +12,9 @@ public class Settings {
     public static final int BOARD_DISPLAY_SIZE = 400;
 
     public static final LetterColorModel LETTER_COLOR = new LetterColorModel(
-            new Color(33, 150, 243), new Color(255, 255, 255));
+            Color.web("#2196F3"), Color.web("#FFFFFF"));
     public static final LetterColorModel LETTER_MATCH_COLOR = new LetterColorModel(
-            new Color(0, 150, 136), new Color(255, 255, 255));
+            Color.web("#009688"), Color.web("#FFFFFF"));
     public static final LetterColorModel LETTER_START_COLOR = new LetterColorModel(
-            new Color(96, 125, 139), new Color(255, 255, 255));
+            Color.web("#00796B"), Color.web("#FFFFFF"));
 }

@@ -10,7 +10,7 @@ import models.PointModel;
 import javax.swing.*;
 import java.awt.*;
 
-class BoardDisplay extends JPanel {
+public class BoardDisplay extends JPanel {
     private final BoardController boardController;
     private BoardModel board;
     private MatchModel displayMatch;
@@ -107,10 +107,10 @@ class BoardDisplay extends JPanel {
     private void drawPoint(Graphics graphics, PointModel point, int letterSize) {
         LetterColorModel letterColor = getLetterColor(point);
 
-        graphics.setColor(letterColor.backgroundColor);
+        //graphics.setColor(letterColor.backgroundColor);
         graphics.fillRect(point.x * letterSize, point.y * letterSize, letterSize, letterSize);
 
-        graphics.setColor(letterColor.foregroundColor);
+        //graphics.setColor(letterColor.foregroundColor);
         drawLetterInPoint(graphics, point, letterSize);
     }
 
