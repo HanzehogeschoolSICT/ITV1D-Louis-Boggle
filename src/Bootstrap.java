@@ -45,6 +45,7 @@ public class Bootstrap extends Application {
         primaryStage.setTitle("Boggle");
         primaryStage.setScene(new Scene(mainDisplay));
         primaryStage.setResizable(false);
+        primaryStage.sizeToScene();
         primaryStage.show();
     }
 
