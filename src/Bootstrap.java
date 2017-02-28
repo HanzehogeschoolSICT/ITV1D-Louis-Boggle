@@ -99,7 +99,7 @@ public class Bootstrap extends Application {
      * @param words List of words.
      * @param word  Word to validate and add.
      */
-    private static void addWord(Set<String> words, String word) {
+    private void addWord(Set<String> words, String word) {
         word = word.trim();
         if (word.equals(""))
             return;

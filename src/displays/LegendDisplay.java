@@ -34,6 +34,6 @@ public class LegendDisplay {
         double height = canvas.getHeight();
 
         graphicsContext.fillRect(0, 0, width, height);
-        graphicsContext.strokeRect(0, 0, width - 1, height -1);
+        graphicsContext.strokeRect(0, 0, width - 1, height - 1);
     }
 }

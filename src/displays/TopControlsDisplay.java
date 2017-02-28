@@ -20,7 +20,7 @@ public class TopControlsDisplay {
     private Spinner<Integer> boardSizeSpinner;
 
     @FXML
-    public void initialize () {
+    public void initialize() {
         SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValueFactory =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(Settings.BOARD_MINIMUM_SIZE,
                         Settings.BOARD_MAXIMUM_SIZE, Settings.BOARD_SIZE, Settings.BOARD_STEP_SIZE);
@@ -40,6 +40,9 @@ public class TopControlsDisplay {
 
         Property<BoardModel> boardProperty = DataManager.getBoardProperty();
         boardProperty.setValue(boardModel);
+
+        ObservableList<MatchModel> matchList = DataManager.getMatchList();
+        matchList.clear();
     }
 
     /**
