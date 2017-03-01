@@ -20,6 +20,8 @@ public class TopControlsDisplay {
     @FXML
     private Spinner<Integer> boardSizeSpinner;
     @FXML
+    private Button newBoardButton;
+    @FXML
     private Button solveBoardButton;
 
     /**
@@ -60,15 +62,36 @@ public class TopControlsDisplay {
      */
     @FXML
     private void onSolveBoardButtonAction(ActionEvent actionEvent) {
-        solveBoardButton.setDisable(true);
+        setIsSolving(true);
 
         Property<BoardModel> boardProperty = DataManager.getBoardProperty();
         BoardModel board = boardProperty.getValue();
 
         Set<String> words = DataManager.getWords();
-        List<MatchModel> matches = new SolveService(board, words).getMatches();
 
-        ObservableList<MatchModel> matchList = DataManager.getMatchList();
-        matchList.setAll(matches);
+        SolveService solveService = new SolveService(board, words);
+        solveService.setOnSucceeded(event -> {
+            List<MatchModel> matches = solveService.getValue();
+
+            ObservableList<MatchModel> matchList = DataManager.getMatchList();
+            matchList.setAll(matches);
+            setIsSolving(false);
+        });
+
+        solveService.start();
+    }
+
+    /**
+     * Change the state of the controls to prevent the user from performing actions while the board is being solved.
+     *
+     * @param isSolving True if the board will be solved, false if it has been solved.
+     */
+    private void setIsSolving(boolean isSolving) {
+        boardSizeSpinner.setDisable(isSolving);
+        newBoardButton.setDisable(isSolving);
+
+        // The board can only be solved once,
+        // so permanently disable the solve button.
+        solveBoardButton.setDisable(true);
     }
 }

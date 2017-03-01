@@ -17,6 +17,6 @@
             <Spinner fx:id="boardSizeSpinner"/>
         </graphic>
     </Label>
-    <Button text="New Board" onAction="#onNewBoardButtonAction"/>
+    <Button text="New Board" onAction="#onNewBoardButtonAction" fx:id="newBoardButton"/>
     <Button text="Solve Board" onAction="#onSolveBoardButtonAction" disable="true" fx:id="solveBoardButton"/>
 </HBox>

@@ -1,6 +1,8 @@
 package services;
 
 import data.Log;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import models.BoardModel;
 import models.MatchModel;
 import models.PointModel;
@@ -17,7 +19,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class SolveService {
+public class SolveService extends Service<List<MatchModel>> {
     private final BoardModel board;
     private final Set<String> words;
     private final List<MatchModel> matches;
@@ -40,7 +42,7 @@ public class SolveService {
      *
      * @return All matching words for the board.
      */
-    public List<MatchModel> getMatches() {
+    private List<MatchModel> getMatches() {
         if (!isSolved) {
             Instant start = Instant.now();
             solve();
@@ -76,5 +78,24 @@ public class SolveService {
         } catch (InterruptedException exception) {
             Log.error("Solver was interrupted unexpectedly");
         }
+    }
+
+    /**
+     * Create a task that will be executed when the service is started.
+     *
+     * @return Task containing the result of the service.
+     */
+    @Override
+    protected Task<List<MatchModel>> createTask() {
+        return new Task<List<MatchModel>>() {
+            /**
+             * Execute the task to retrieve its result.
+             *
+             * @return Result of the service.
+             */
+            protected List<MatchModel> call() {
+                return getMatches();
+            }
+        };
     }
 }
