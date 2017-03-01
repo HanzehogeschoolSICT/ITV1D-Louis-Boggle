@@ -33,7 +33,7 @@ public class BoardDisplay {
         graphics = boardCanvas.getGraphicsContext2D();
 
         Property<BoardModel> boardProperty = DataManager.getBoardProperty();
-        boardProperty.addListener((observable, oldValue, newValue) -> updateBoard(newValue, match));
+        boardProperty.addListener((observable, oldValue, newValue) -> updateBoard(newValue, null));
 
         Property<MatchModel> matchProperty = DataManager.getMatchProperty();
         matchProperty.addListener((observable, oldValue, newValue) -> updateBoard(board, newValue));
