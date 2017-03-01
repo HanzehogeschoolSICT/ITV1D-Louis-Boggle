@@ -11,9 +11,14 @@
     <padding>
         <Insets bottom="10.0" top="10.0"/>
     </padding>
-    <Label contentDisplay="RIGHT" text="Matched words:">
+    <Label contentDisplay="RIGHT" text="Matched words:" managed="false" fx:id="matchedWordsLabel">
         <graphic>
-            <ComboBox disable="true" fx:id="matchesComboBox" onAction="#onMatchesComboBoxAction"/>
+            <ComboBox fx:id="matchesComboBox" onAction="#onMatchesComboBoxAction"/>
+        </graphic>
+    </Label>
+    <Label contentDisplay="RIGHT" text="Matched words:" fx:id="noMatchedWordsLabel">
+        <graphic>
+            <ComboBox disable="true" fx:id="noMatchesComboBox"/>
         </graphic>
     </Label>
 </HBox>
