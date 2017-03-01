@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/8.0.112"
+      fx:controller="displays.LegendDisplay"
+      alignment="CENTER" spacing="10.0">
+    <padding>
+        <Insets bottom="5.0" top="10.0"/>
+    </padding>
+    <Label text="No Match" fx:id="noMatchColorLabel">
+        <graphic>
+            <Canvas height="10.0" width="10.0" fx:id="noMatchColorCanvas"/>
+        </graphic>
+    </Label>
+    <Label text="Match" fx:id="matchColorLabel">
+        <graphic>
+            <Canvas height="10.0" width="10.0" fx:id="matchColorCanvas"/>
+        </graphic>
+    </Label>
+    <Label text="Match Start" fx:id="matchStartColorLabel">
+        <graphic>
+            <Canvas height="10.0" width="10.0" fx:id="matchStartColorCanvas"/>
+        </graphic>
+    </Label>
+</HBox>

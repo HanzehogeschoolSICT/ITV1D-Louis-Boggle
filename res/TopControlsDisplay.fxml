@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.HBox?>
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/8.0.112"
+      fx:controller="displays.TopControlsDisplay"
+      alignment="CENTER" spacing="10.0">
+    <padding>
+        <Insets bottom="10.0" top="10.0"/>
+    </padding>
+    <Label contentDisplay="RIGHT" text="Board size:">
+        <graphic>
+            <Spinner fx:id="boardSizeSpinner"/>
+        </graphic>
+    </Label>
+    <Button text="New Board" onAction="#onNewBoardButtonAction" fx:id="newBoardButton"/>
+    <Button text="Solve Board" onAction="#onSolveBoardButtonAction" disable="true" fx:id="solveBoardButton"/>
+</HBox>

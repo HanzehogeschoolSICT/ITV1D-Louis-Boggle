@@ -1,80 +1,97 @@
 package displays;
 
-import controllers.BoardController;
+import data.DataManager;
 import data.Settings;
-import workers.DisplaySolveWorker;
+import javafx.beans.property.Property;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import models.BoardModel;
+import models.MatchModel;
+import services.SolveService;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
+import java.util.List;
+import java.util.Set;
 
-class TopControlsDisplay extends JPanel {
-    private final BoardController boardController;
-    private JSpinner boardSizeSpinner;
-    private JButton newBoardButton;
-    private JButton solveBoardButton;
+public class TopControlsDisplay {
+    @FXML
+    private Spinner<Integer> boardSizeSpinner;
+    @FXML
+    private Button newBoardButton;
+    @FXML
+    private Button solveBoardButton;
 
     /**
      * Initialize the top controls display.
+     */
+    @FXML
+    public void initialize() {
+        SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValueFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(Settings.BOARD_MINIMUM_SIZE,
+                        Settings.BOARD_MAXIMUM_SIZE, Settings.BOARD_SIZE, Settings.BOARD_STEP_SIZE);
+
+        boardSizeSpinner.setValueFactory(spinnerValueFactory);
+    }
+
+    /**
+     * Handle a new board button action.
      *
-     * @param boardController Board controller to use.
+     * @param actionEvent Event for the action.
      */
-    TopControlsDisplay(BoardController boardController) {
-        this.boardController = boardController;
+    @FXML
+    private void onNewBoardButtonAction(ActionEvent actionEvent) {
+        solveBoardButton.setDisable(false);
 
-        initializeNewBoard();
-        initializeSolveBoard();
+        int boardSize = boardSizeSpinner.getValue();
+        BoardModel boardModel = new BoardModel(boardSize);
+
+        Property<BoardModel> boardProperty = DataManager.getBoardProperty();
+        boardProperty.setValue(boardModel);
+
+        ObservableList<MatchModel> matchList = DataManager.getMatchList();
+        matchList.clear();
     }
 
     /**
-     * Initialize controls for creating new boards.
-     */
-    private void initializeNewBoard() {
-        JLabel boardSizeLabel = new JLabel("Board size:");
-        add(boardSizeLabel);
-
-        SpinnerNumberModel boardSizeModel = new SpinnerNumberModel(Settings.BOARD_SIZE,
-                Settings.BOARD_MINIMUM_SIZE, Settings.BOARD_MAXIMUM_SIZE, Settings.BOARD_STEP_SIZE);
-        boardSizeSpinner = new JSpinner(boardSizeModel);
-        add(boardSizeSpinner);
-
-        newBoardButton = new JButton("New Board");
-        newBoardButton.addActionListener(this::newBoardHandler);
-        add(newBoardButton);
-    }
-
-    /**
-     * Handle new board creation request.
+     * Handle a solve board button action.
      *
-     * @param actionEvent Event for the request.
+     * @param actionEvent Event for the action.
      */
-    private void newBoardHandler(ActionEvent actionEvent) {
-        int boardSize = (int) boardSizeSpinner.getValue();
-        boardController.setBoard(boardSize);
-        solveBoardButton.setEnabled(true);
+    @FXML
+    private void onSolveBoardButtonAction(ActionEvent actionEvent) {
+        setIsSolving(true);
+
+        Property<BoardModel> boardProperty = DataManager.getBoardProperty();
+        BoardModel board = boardProperty.getValue();
+
+        Set<String> words = DataManager.getWords();
+
+        SolveService solveService = new SolveService(board, words);
+        solveService.setOnSucceeded(event -> {
+            List<MatchModel> matches = solveService.getValue();
+
+            ObservableList<MatchModel> matchList = DataManager.getMatchList();
+            matchList.setAll(matches);
+            setIsSolving(false);
+        });
+
+        solveService.start();
     }
 
     /**
-     * Initialize controls for solving boards.
-     */
-    private void initializeSolveBoard() {
-        solveBoardButton = new JButton("Solve Board");
-        solveBoardButton.addActionListener(this::solveBoardHandler);
-        solveBoardButton.setEnabled(false);
-        add(solveBoardButton);
-    }
-
-    /**
-     * Handle board solving request.
+     * Change the state of the controls to prevent the user from performing actions while the board is being solved.
      *
-     * @param actionEvent Event for the request.
+     * @param isSolving True if the board will be solved, false if it has been solved.
      */
-    private void solveBoardHandler(ActionEvent actionEvent) {
-        DisplaySolveWorker displaySolveWorker = new DisplaySolveWorker(boardController,
-                boardSizeSpinner, newBoardButton);
+    private void setIsSolving(boolean isSolving) {
+        boardSizeSpinner.setDisable(isSolving);
+        newBoardButton.setDisable(isSolving);
 
-        // The board only has to be solved once.
-        solveBoardButton.setEnabled(false);
-
-        displaySolveWorker.start();
+        // The board can only be solved once,
+        // so permanently disable the solve button.
+        solveBoardButton.setDisable(true);
     }
 }

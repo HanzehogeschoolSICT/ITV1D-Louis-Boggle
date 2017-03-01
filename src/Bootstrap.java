@@ -1,41 +1,99 @@
-import controllers.BoardController;
+import data.DataManager;
 import data.Log;
-import displays.MainDisplay;
 import helpers.LetterHelper;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.HashSet;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
 import java.util.Set;
 
-class Bootstrap {
+public class Bootstrap extends Application {
     /**
      * Bootstrap the application.
      *
      * @param args Any arguments.
      */
     public static void main(String[] args) {
+        launch(args);
+    }
+
+    /**
+     * Start the application.
+     *
+     * @param primaryStage Primary GUI container.
+     */
+    @Override
+    public void start(Stage primaryStage) {
+        String wordsPath = getWordsPath();
+        loadWords(wordsPath);
+
+        showGui(primaryStage);
+        Set<String> words = DataManager.getWords();
+
+        if (words.size() == 0)
+            showNoWordsMessage(primaryStage);
+    }
+
+    /**
+     * Show the GUI for the application.
+     *
+     * @param stage GUI container to use.
+     */
+    private void showGui(Stage stage) {
+        URL mainDisplayUrl = Bootstrap.class.getResource("/MainDisplay.fxml");
+
+        try {
+            Parent mainDisplay = FXMLLoader.load(mainDisplayUrl);
+            stage.setTitle("Boggle");
+
+            stage.setScene(new Scene(mainDisplay));
+            stage.setResizable(false);
+            stage.sizeToScene();
+
+            stage.show();
+        } catch (IOException exception) {
+            Log.error("Failed to load GUI");
+        }
+    }
+
+    /**
+     * Get the path to the file containing the words.
+     *
+     * @return Path to the file containing the words.
+     */
+    private String getWordsPath() {
+        Parameters parameters = getParameters();
+        Map<String, String> namedParameters = parameters.getNamed();
+
+        // Default path is in the current working directory.
         String path = System.getProperty("user.dir") + File.separatorChar + "words.txt";
-        if (args.length >= 2 && args[0].equals("--words"))
-            path = args[1];
 
-        Log.info("Loading words from %s", path);
-        Set<String> words = loadWords(path);
-        Log.info("Loaded %d words", words.size());
+        // The user has specified another path to the file, use it.
+        if (namedParameters.containsKey("words"))
+            path = namedParameters.get("words");
 
-        BoardController boardController = new BoardController(words);
-        new MainDisplay(boardController);
+        return path;
     }
 
     /**
      * Try to load words from a file.
      *
      * @param path Path to the file containing words.
-     * @return Set of found words.
      */
-    private static Set<String> loadWords(String path) {
-        Set<String> words = new HashSet<>();
+    private void loadWords(String path) {
+        Log.info("Loading words from %s", path);
+        Set<String> words = DataManager.getWords();
 
         try (FileReader fileReader = new FileReader(path);
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
@@ -49,7 +107,7 @@ class Bootstrap {
             Log.error("Words file not found: %s", path);
         }
 
-        return words;
+        Log.info("Loaded %d words", words.size());
     }
 
     /**
@@ -58,7 +116,7 @@ class Bootstrap {
      * @param words List of words.
      * @param word  Word to validate and add.
      */
-    private static void addWord(Set<String> words, String word) {
+    private void addWord(Set<String> words, String word) {
         word = word.trim();
         if (word.equals(""))
             return;
@@ -72,5 +130,23 @@ class Bootstrap {
         }
 
         words.add(word);
+    }
+
+    /**
+     * Show a message indicating that no words have been loaded.
+     */
+    private void showNoWordsMessage(Stage owner) {
+        String message = String.format("No words have been loaded. Please check the console output.%n%n" +
+                "By default, words.txt in the working directory of this program is loaded. " +
+                "To use a specific file, start this program using the words option.%n%n" +
+                "Example: java -jar Boggle.jar --words=C:\\words.txt");
+
+        Alert alert = new Alert(Alert.AlertType.WARNING, message, ButtonType.OK);
+
+        alert.setTitle("No words loaded");
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(owner);
+
+        alert.show();
     }
 }

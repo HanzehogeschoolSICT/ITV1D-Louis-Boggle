@@ -1,83 +1,56 @@
 package displays;
 
-import controllers.BoardController;
+import data.DataManager;
+import javafx.beans.property.Property;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionModel;
 import models.MatchModel;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.util.List;
-
-class BottomControlsDisplay extends JPanel {
-    private final BoardController boardController;
-    private JComboBox<MatchModel> matchesComboBox;
-    private JComboBox<String> noMatchesComboBox;
+public class BottomControlsDisplay {
+    @FXML
+    private ComboBox<MatchModel> matchesComboBox;
 
     /**
      * Initialize the bottom controls display.
+     */
+    @FXML
+    public void initialize() {
+        ObservableList<MatchModel> matchList = DataManager.getMatchList();
+        matchList.addListener((ListChangeListener<MatchModel>) c -> onMatchListChanged());
+        matchesComboBox.setItems(matchList);
+    }
+
+    /**
+     * Handle a matches combo box action.
      *
-     * @param boardController Board controller to use.
+     * @param actionEvent Event for the action.
      */
-    BottomControlsDisplay(BoardController boardController) {
-        this.boardController = boardController;
-        boardController.setUpdateMatchesHandler(this::updateMatchesHandler);
+    @FXML
+    private void onMatchesComboBoxAction(ActionEvent actionEvent) {
+        MatchModel match = matchesComboBox.getSelectionModel().getSelectedItem();
 
-        initializeMatches();
+        Property<MatchModel> matchProperty = DataManager.getMatchProperty();
+        matchProperty.setValue(match);
     }
 
     /**
-     * Initialize the controls showing the matches.
+     * Handle a change in the mast list.
      */
-    private void initializeMatches() {
-        JLabel matchesLabel = new JLabel("Matched words:");
-        add(matchesLabel);
+    private void onMatchListChanged() {
+        ObservableList<MatchModel> matchList = matchesComboBox.getItems();
 
-        matchesComboBox = new JComboBox<>();
-        matchesComboBox.addActionListener(this::matchSelectedHandler);
-        add(matchesComboBox);
+        boolean hasMatches = matchList.size() != 0;
+        matchesComboBox.setDisable(!hasMatches);
 
-        noMatchesComboBox = new JComboBox<>();
-        noMatchesComboBox.addItem("None");
-        noMatchesComboBox.setEnabled(false);
-        add(noMatchesComboBox);
+        if (!hasMatches)
+            return;
 
-        checkForMatches();
-    }
-
-    /**
-     * Check if any matches have been found and adjust control accordingly.
-     */
-    private void checkForMatches() {
-        boolean hasItems = matchesComboBox.getItemCount() > 0;
-
-        matchesComboBox.setVisible(hasItems);
-        noMatchesComboBox.setVisible(!hasItems);
-    }
-
-    /**
-     * Handle a match selection.
-     *
-     * @param actionEvent Event for the selection.
-     */
-    private void matchSelectedHandler(ActionEvent actionEvent) {
-        JComboBox matchesComboBox = (JComboBox) actionEvent.getSource();
-        MatchModel match = (MatchModel) matchesComboBox.getSelectedItem();
-
-        boardController.displayMatch(match);
-    }
-
-    /**
-     * Handle an update of found matches.
-     *
-     * @param matches List of found matches.
-     */
-    private void updateMatchesHandler(List<MatchModel> matches) {
-        matchesComboBox.removeAllItems();
-
-        if (matches != null) {
-            for (MatchModel match : matches)
-                matchesComboBox.addItem(match);
-        }
-
-        checkForMatches();
+        // Select the first item to make sure there's always a displayed solution.
+        SelectionModel<MatchModel> selectionModel = matchesComboBox.getSelectionModel();
+        selectionModel.selectFirst();
     }
 }

@@ -1,117 +1,99 @@
 package displays;
 
-import controllers.BoardController;
+import data.DataManager;
 import data.Settings;
+import javafx.beans.property.Property;
+import javafx.fxml.FXML;
+import javafx.geometry.VPos;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.text.FontSmoothingType;
+import javafx.scene.text.TextAlignment;
 import models.BoardModel;
 import models.LetterColorModel;
 import models.MatchModel;
 import models.PointModel;
 
-import javax.swing.*;
-import java.awt.*;
+import java.util.List;
 
-class BoardDisplay extends JPanel {
-    private final BoardController boardController;
+public class BoardDisplay {
+    @FXML
+    private Canvas boardCanvas;
+
     private BoardModel board;
-    private MatchModel displayMatch;
-    private Dimension preferredSize;
+    private MatchModel match;
+
+    private GraphicsContext graphics;
 
     /**
      * Initialize the board display.
-     *
-     * @param boardController Board controller to use.
      */
-    BoardDisplay(BoardController boardController) {
-        this.boardController = boardController;
-        preferredSize = new Dimension(Settings.BOARD_DISPLAY_SIZE, Settings.BOARD_DISPLAY_SIZE);
+    @FXML
+    public void initialize() {
+        graphics = boardCanvas.getGraphicsContext2D();
 
-        boardController.setSetDisplayMatchHandler(this::setDisplayMatchHandler);
-        boardController.setUpdateBoardDisplayHandler(this::updateBoardDisplayHandler);
+        Property<BoardModel> boardProperty = DataManager.getBoardProperty();
+        boardProperty.addListener((observable, oldValue, newValue) -> updateBoard(newValue, match));
+
+        Property<MatchModel> matchProperty = DataManager.getMatchProperty();
+        matchProperty.addListener((observable, oldValue, newValue) -> updateBoard(board, newValue));
     }
 
     /**
-     * Get the preferred size for the board display.
+     * Update the board and display the updated board.
      *
-     * @return Preferred size for the board display.
+     * @param board Board to update.
+     * @param match Match to update.
      */
-    @Override
-    public Dimension getPreferredSize() {
-        return preferredSize;
-    }
-
-    /**
-     * Handle updating the board display.
-     *
-     * @param board Board to display.
-     */
-    private void updateBoardDisplayHandler(BoardModel board) {
+    private void updateBoard(BoardModel board, MatchModel match) {
         this.board = board;
-        repaint();
+        this.match = match;
+
+        drawBoard();
     }
 
     /**
-     * Handle setting the match to display.
-     *
-     * @param displayMatch Match to display.
+     * Draw the current board on the canvas.
      */
-    private void setDisplayMatchHandler(MatchModel displayMatch) {
-        this.displayMatch = displayMatch;
-    }
-
-    /**
-     * Draw the board using the given graphics.
-     *
-     * @param graphics Graphics to draw the board on.
-     */
-    @Override
-    public void paintComponent(Graphics graphics) {
-        super.paintComponent(graphics);
+    private void drawBoard() {
+        clear();
 
         if (board == null)
             return;
 
         int boardSize = board.size();
-        int letterSize = Settings.BOARD_DISPLAY_SIZE / boardSize;
-        adjustSize(boardSize, letterSize);
+        // The board is square: height is the same as width.
+        double letterSize = boardCanvas.getHeight() / boardSize;
 
-        java.util.List<PointModel> allPoints = board.getAllPoints();
+        List<PointModel> allPoints = board.getAllPoints();
         for (PointModel point : allPoints)
-            drawPoint(graphics, point, letterSize);
+            drawPoint(match, point, letterSize);
     }
 
     /**
-     * Adjust the control size to avoid white space for odd sizes.
-     *
-     * @param boardSize  Size of the board.
-     * @param letterSize Size per letter.
+     * Clear the canvas.
      */
-    private void adjustSize(int boardSize, int letterSize) {
-        int adjustedSize = boardSize * letterSize;
+    private void clear() {
+        double width = boardCanvas.getWidth();
+        double height = boardCanvas.getHeight();
 
-        if (adjustedSize == preferredSize.width && adjustedSize == preferredSize.height)
-            return;
-
-        preferredSize = new Dimension(adjustedSize, adjustedSize);
-        setSize(preferredSize);
-
-        boardController.adjustSize();
+        graphics.clearRect(0, 0, width, height);
     }
 
     /**
-     * Draw a single point using the given graphics.
+     * Draw a single point on the canvas.
      *
-     * @param graphics   Graphics to draw the point on.
      * @param point      Point to draw.
      * @param letterSize Letter size per point.
      */
-    private void drawPoint(Graphics graphics, PointModel point, int letterSize) {
-        LetterColorModel letterColor = getLetterColor(point);
+    private void drawPoint(MatchModel match, PointModel point, double letterSize) {
+        LetterColorModel letterColor = getLetterColor(match, point);
 
-        graphics.setColor(letterColor.backgroundColor);
+        graphics.setFill(letterColor.backgroundColor);
         graphics.fillRect(point.x * letterSize, point.y * letterSize, letterSize, letterSize);
 
-        graphics.setColor(letterColor.foregroundColor);
-        drawLetterInPoint(graphics, point, letterSize);
+        graphics.setFill(letterColor.foregroundColor);
+        drawLetterInPoint(point, letterSize);
     }
 
     /**
@@ -120,28 +102,31 @@ class BoardDisplay extends JPanel {
      * @param point Point to get the color for.
      * @return Background and foreground color to use.
      */
-    private LetterColorModel getLetterColor(PointModel point) {
-        if (displayMatch == null || !displayMatch.hasPoint(point))
+    private LetterColorModel getLetterColor(MatchModel match, PointModel point) {
+        if (match == null || !match.hasPoint(point))
             return Settings.LETTER_COLOR;
 
-        return displayMatch.isStartPoint(point) ?
+        return match.isStartPoint(point) ?
                 Settings.LETTER_START_COLOR : Settings.LETTER_MATCH_COLOR;
     }
 
     /**
-     * Draw a letter in a point using the given graphics.
+     * Draw a letter in a point.
      *
-     * @param graphics   Graphics to draw the point on.
-     * @param point      Point to draw.
+     * @param point      Point to draw the letter in.
      * @param letterSize Letter size per point.
      */
-    private void drawLetterInPoint(Graphics graphics, PointModel point, int letterSize) {
+    private void drawLetterInPoint(PointModel point, double letterSize) {
+        // Results in a less blurry board when displaying large boards.
+        graphics.setFontSmoothingType(FontSmoothingType.LCD);
+
+        graphics.setTextAlign(TextAlignment.CENTER);
+        graphics.setTextBaseline(VPos.CENTER);
+
+        double centerX = point.x * letterSize + (letterSize / 2);
+        double centerY = point.y * letterSize + (letterSize / 2);
+
         String letter = ((Character) board.getLetter(point)).toString();
-        FontMetrics fontMetrics = graphics.getFontMetrics();
-
-        int x = point.x * letterSize + ((letterSize - fontMetrics.stringWidth(letter)) / 2);
-        int y = point.y * letterSize + ((letterSize + fontMetrics.getHeight() / 2) / 2);
-
-        graphics.drawString(letter, x, y);
+        graphics.fillText(letter, centerX, centerY);
     }
 }
