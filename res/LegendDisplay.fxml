@@ -9,7 +9,7 @@
       fx:controller="displays.LegendDisplay"
       alignment="CENTER" spacing="10.0">
     <padding>
-        <Insets bottom="5.0" top="10.0"/>
+        <Insets bottom="10.0" top="10.0"/>
     </padding>
     <Label text="No Match" fx:id="noMatchColorLabel">
         <graphic>

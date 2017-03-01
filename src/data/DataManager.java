@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import models.BoardModel;
 import models.MatchModel;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +15,7 @@ public class DataManager {
     private static final Property<MatchModel> matchProperty = new SimpleObjectProperty<>();
 
     private static final Set<String> words = new HashSet<>();
-    private static final ObservableList<MatchModel> matchList = FXCollections.observableList(new ArrayList<>());
+    private static final ObservableList<MatchModel> matchList = FXCollections.observableArrayList();
 
     /**
      * Get the board property.

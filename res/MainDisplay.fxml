@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Separator?>
 <VBox xmlns:fx="http://javafx.com/fxml/1"
       xmlns="http://javafx.com/javafx/8.0.112"
       fx:controller="displays.MainDisplay"
@@ -9,5 +10,6 @@
     <fx:include source="TopControlsDisplay.fxml"/>
     <fx:include source="BoardDisplay.fxml" VBox.vgrow="ALWAYS"/>
     <fx:include source="LegendDisplay.fxml"/>
+    <Separator />
     <fx:include source="BottomControlsDisplay.fxml"/>
 </VBox>
