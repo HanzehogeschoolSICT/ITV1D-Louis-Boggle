@@ -42,7 +42,10 @@ public class BoardModel {
      * @return Letter on the given point.
      */
     public char getLetter(PointModel point) {
-        return board[point.x][point.y];
+        int x = point.getX();
+        int y = point.getY();
+
+        return board[x][y];
     }
 
     /**
@@ -63,19 +66,22 @@ public class BoardModel {
     public List<PointModel> getSurroundingPoints(PointModel point) {
         List<PointModel> surroundingPoints = new ArrayList<>();
 
+        int x = point.getX();
+        int y = point.getY();
+
         // Top Left, Top, Top Right
-        addPointToList(surroundingPoints, point.x - 1, point.y - 1);
-        addPointToList(surroundingPoints, point.x, point.y - 1);
-        addPointToList(surroundingPoints, point.x + 1, point.y - 1);
+        addPointToList(surroundingPoints, x - 1, y - 1);
+        addPointToList(surroundingPoints, x, y - 1);
+        addPointToList(surroundingPoints, x + 1, y - 1);
 
         // Left, Right
-        addPointToList(surroundingPoints, point.x - 1, point.y);
-        addPointToList(surroundingPoints, point.x + 1, point.y);
+        addPointToList(surroundingPoints, x - 1, y);
+        addPointToList(surroundingPoints, x + 1, y);
 
         // Bottom Left, Bottom, Bottom Right
-        addPointToList(surroundingPoints, point.x - 1, point.y + 1);
-        addPointToList(surroundingPoints, point.x, point.y + 1);
-        addPointToList(surroundingPoints, point.x + 1, point.y + 1);
+        addPointToList(surroundingPoints, x - 1, y + 1);
+        addPointToList(surroundingPoints, x, y + 1);
+        addPointToList(surroundingPoints, x + 1, y + 1);
 
         return surroundingPoints;
     }

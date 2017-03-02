@@ -1,8 +1,8 @@
 package models;
 
 public class PointModel {
-    public final int x;
-    public final int y;
+    private final int x;
+    private final int y;
 
     /**
      * Initialize the point using the given X and Y positions.
@@ -13,6 +13,24 @@ public class PointModel {
     PointModel(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * Get the X coordinate.
+     *
+     * @return X coordinate.
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * Get the Y coordinate.
+     *
+     * @return Y coordinate.
+     */
+    public int getY() {
+        return y;
     }
 
     /**

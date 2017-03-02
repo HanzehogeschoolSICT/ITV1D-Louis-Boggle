@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 import models.LetterColorModel;
 
 public class LegendDisplay {
@@ -59,8 +60,9 @@ public class LegendDisplay {
 
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
-        graphicsContext.setFill(color.backgroundColor);
-        graphicsContext.setStroke(color.backgroundColor.darker());
+        Color backgroundColor = color.getBackgroundColor();
+        graphicsContext.setFill(backgroundColor);
+        graphicsContext.setStroke(backgroundColor.darker());
 
         graphicsContext.fillRect(0, 0, size, size);
         graphicsContext.strokeRect(0, 0, size, size);

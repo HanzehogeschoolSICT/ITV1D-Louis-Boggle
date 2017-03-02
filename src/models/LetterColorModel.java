@@ -3,8 +3,8 @@ package models;
 import javafx.scene.paint.Color;
 
 public class LetterColorModel {
-    public final Color backgroundColor;
-    public final Color foregroundColor;
+    private final Color backgroundColor;
+    private final Color foregroundColor;
 
     /**
      * Initialize the letter color model.
@@ -15,5 +15,23 @@ public class LetterColorModel {
     public LetterColorModel(Color backgroundColor, Color foregroundColor) {
         this.backgroundColor = backgroundColor;
         this.foregroundColor = foregroundColor;
+    }
+
+    /**
+     * Get the background color.
+     *
+     * @return Background color.
+     */
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    /**
+     * Get the foreground color.
+     *
+     * @return Foreground color.
+     */
+    public Color getForegroundColor() {
+        return foregroundColor;
     }
 }
