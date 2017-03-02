@@ -47,9 +47,7 @@ public class TopControlsDisplay {
 
         int boardSize = boardSizeSpinner.getValue();
         BoardModel boardModel = new BoardModel(boardSize);
-
-        Property<BoardModel> boardProperty = DataManager.getBoardProperty();
-        boardProperty.setValue(boardModel);
+        DataManager.setBoard(boardModel);
 
         ObservableList<MatchModel> matchList = DataManager.getMatchList();
         matchList.clear();
@@ -64,9 +62,7 @@ public class TopControlsDisplay {
     private void onSolveBoardButtonAction(ActionEvent actionEvent) {
         setIsSolving(true);
 
-        Property<BoardModel> boardProperty = DataManager.getBoardProperty();
-        BoardModel board = boardProperty.getValue();
-
+        BoardModel board = DataManager.getBoard();
         Set<String> words = DataManager.getWords();
 
         SolveService solveService = new SolveService(board, words);

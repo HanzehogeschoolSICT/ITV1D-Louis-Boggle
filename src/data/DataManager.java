@@ -27,12 +27,39 @@ public class DataManager {
     }
 
     /**
+     * Get the board.
+     *
+     * @return Board.
+     */
+    public static BoardModel getBoard() {
+        return boardProperty.getValue();
+    }
+
+    /**
+     * Set the board.
+     *
+     * @param board New board.
+     */
+    public static void setBoard(BoardModel board) {
+        boardProperty.setValue(board);
+    }
+
+    /**
      * Get the match property.
      *
      * @return Match property.
      */
     public static Property<MatchModel> getMatchProperty() {
         return matchProperty;
+    }
+
+    /**
+     * Set the match.
+     *
+     * @param match New match.
+     */
+    public static void setMatch(MatchModel match) {
+        matchProperty.setValue(match);
     }
 
     /**
