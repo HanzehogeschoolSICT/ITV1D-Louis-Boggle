@@ -48,9 +48,7 @@ public class BottomControlsDisplay {
     @FXML
     private void onMatchesComboBoxAction(ActionEvent actionEvent) {
         MatchModel match = matchesComboBox.getSelectionModel().getSelectedItem();
-
-        Property<MatchModel> matchProperty = DataManager.getMatchProperty();
-        matchProperty.setValue(match);
+        DataManager.setMatch(match);
     }
 
     /**
