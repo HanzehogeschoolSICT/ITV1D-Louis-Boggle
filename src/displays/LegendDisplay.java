@@ -8,6 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import models.LetterColorModel;
 
+/**
+ * Controller for the legend.
+ */
 public class LegendDisplay {
     @FXML
     private Label noMatchColorLabel;

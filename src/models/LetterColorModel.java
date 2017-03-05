@@ -2,6 +2,9 @@ package models;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Model containing the foreground and background color for letters.
+ */
 public class LetterColorModel {
     private final Color backgroundColor;
     private final Color foregroundColor;

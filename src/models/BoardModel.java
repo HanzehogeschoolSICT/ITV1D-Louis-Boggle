@@ -5,6 +5,9 @@ import helpers.LetterHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Model for the board itself.
+ */
 public class BoardModel {
     private final int size;
     private final char[][] board;

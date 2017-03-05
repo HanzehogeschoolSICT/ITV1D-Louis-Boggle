@@ -2,7 +2,6 @@ package displays;
 
 import data.DataManager;
 import data.Settings;
-import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +15,9 @@ import services.SolveService;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Controller for the top controls.
+ */
 public class TopControlsDisplay {
     @FXML
     private Spinner<Integer> boardSizeSpinner;

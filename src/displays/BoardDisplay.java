@@ -16,6 +16,9 @@ import models.PointModel;
 
 import java.util.List;
 
+/**
+ * Controller for the board.
+ */
 public class BoardDisplay {
     @FXML
     private Canvas boardCanvas;

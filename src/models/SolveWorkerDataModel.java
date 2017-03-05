@@ -5,6 +5,9 @@ import helpers.WordHelper;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Model containing information required to find matches on the board.
+ */
 public class SolveWorkerDataModel {
     private final BoardModel board;
     private final Set<String> words;

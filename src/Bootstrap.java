@@ -18,6 +18,9 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Entry class for the application.
+ */
 public class Bootstrap extends Application {
     /**
      * Bootstrap the application.

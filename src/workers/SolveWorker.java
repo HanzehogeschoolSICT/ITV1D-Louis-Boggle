@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Worker to find all matches on the board from the given start point.
+ */
 public class SolveWorker implements Runnable {
     private final BoardModel board;
     private final Set<String> words;

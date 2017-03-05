@@ -19,6 +19,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Service to find all matches on the given board.
+ */
 public class SolveService extends Service<List<MatchModel>> {
     private final BoardModel board;
     private final Set<String> words;
@@ -62,6 +65,7 @@ public class SolveService extends Service<List<MatchModel>> {
         List<PointModel> allPoints = board.getAllPoints();
 
         // Distribute the work over the number of cores in this PC.
+        // There is no guarantee this will happen, but this is a good number of threads.
         int processors = Runtime.getRuntime().availableProcessors();
         ExecutorService executorService = Executors.newFixedThreadPool(processors);
         SolveWorkerDataModel solveWorkerData = new SolveWorkerDataModel(board, words, matches);

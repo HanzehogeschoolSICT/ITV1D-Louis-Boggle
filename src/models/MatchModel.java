@@ -2,6 +2,9 @@ package models;
 
 import java.util.Set;
 
+/**
+ * Model containing a single match on the board.
+ */
 public class MatchModel implements Comparable<MatchModel> {
     private final String word;
     private final PointModel startPoint;

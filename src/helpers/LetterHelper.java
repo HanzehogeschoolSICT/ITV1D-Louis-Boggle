@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * Static helper for everything related to single letters.
+ */
 public class LetterHelper {
     private static LetterHelper instance = null;
     private final Character[] letters;
