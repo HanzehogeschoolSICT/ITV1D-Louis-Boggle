@@ -1,3 +1,5 @@
+[![BCH compliance](https://bettercodehub.com/edge/badge/HanzehogeschoolSICT/ITV1D-Louis-Boggle)](https://bettercodehub.com/)
+
 # Boggle
 
 This folder contains the Boggle program for OOP3.
