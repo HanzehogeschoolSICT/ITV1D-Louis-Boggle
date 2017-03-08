@@ -10,6 +10,9 @@ import models.MatchModel;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Class to share application wide data between classes.
+ */
 public class DataManager {
     private static final Property<BoardModel> boardProperty = new SimpleObjectProperty<>();
     private static final Property<MatchModel> matchProperty = new SimpleObjectProperty<>();

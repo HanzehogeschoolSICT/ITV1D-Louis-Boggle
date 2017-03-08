@@ -16,6 +16,9 @@ import models.PointModel;
 
 import java.util.List;
 
+/**
+ * Controller for the board.
+ */
 public class BoardDisplay {
     @FXML
     private Canvas boardCanvas;
@@ -89,10 +92,10 @@ public class BoardDisplay {
     private void drawPoint(MatchModel match, PointModel point, double letterSize) {
         LetterColorModel letterColor = getLetterColor(match, point);
 
-        graphics.setFill(letterColor.backgroundColor);
-        graphics.fillRect(point.x * letterSize, point.y * letterSize, letterSize, letterSize);
+        graphics.setFill(letterColor.getBackgroundColor());
+        graphics.fillRect(point.getX() * letterSize, point.getY() * letterSize, letterSize, letterSize);
 
-        graphics.setFill(letterColor.foregroundColor);
+        graphics.setFill(letterColor.getForegroundColor());
         drawLetterInPoint(point, letterSize);
     }
 
@@ -123,8 +126,8 @@ public class BoardDisplay {
         graphics.setTextAlign(TextAlignment.CENTER);
         graphics.setTextBaseline(VPos.CENTER);
 
-        double centerX = point.x * letterSize + (letterSize / 2);
-        double centerY = point.y * letterSize + (letterSize / 2);
+        double centerX = point.getX() * letterSize + (letterSize / 2);
+        double centerY = point.getY() * letterSize + (letterSize / 2);
 
         String letter = ((Character) board.getLetter(point)).toString();
         graphics.fillText(letter, centerX, centerY);

@@ -12,6 +12,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SelectionModel;
 import models.MatchModel;
 
+/**
+ * Controller for the bottom controls.
+ */
 public class BottomControlsDisplay {
     @FXML
     private Label matchedWordsLabel;

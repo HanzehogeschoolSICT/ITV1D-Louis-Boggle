@@ -3,6 +3,9 @@ package helpers;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Helper for everything related to words.
+ */
 public class WordHelper {
     private final Set<String> wordParts = new HashSet<>();
 
