@@ -47,10 +47,6 @@ public class SolveWorker implements Runnable {
      * @param visitedPoints Points which already have been visited.
      */
     private void visitPoint(String currentWord, PointModel point, Set<PointModel> visitedPoints) {
-        // Check if the point has already been visited (this is not allowed).
-        if (visitedPoints.contains(point))
-            return;
-
         char letter = board.getLetter(point);
         visitedPoints.add(point);
         currentWord += letter;
@@ -63,6 +59,10 @@ public class SolveWorker implements Runnable {
 
         List<PointModel> surroundingPoints = board.getSurroundingPoints(point);
         for (PointModel surroundingPoint : surroundingPoints) {
+            // Check if the point has already been visited (this is not allowed).
+            if (visitedPoints.contains(surroundingPoint))
+                continue;
+
             // Create a copy of the set to prevent different paths from sharing visited points.
             Set<PointModel> visitedPointsCopy = new HashSet<>(visitedPoints);
             visitPoint(currentWord, surroundingPoint, visitedPointsCopy);
