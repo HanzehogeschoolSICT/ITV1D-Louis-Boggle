@@ -1,4 +1,4 @@
-package displays;
+package controllers;
 
 import data.DataManager;
 import data.Settings;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Controller for the board.
  */
-public class BoardDisplay {
+public class BoardController {
     @FXML
     private Canvas boardCanvas;
 

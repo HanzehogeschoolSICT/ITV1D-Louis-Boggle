@@ -1,7 +1,6 @@
-package displays;
+package controllers;
 
 import data.DataManager;
-import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -15,7 +14,7 @@ import models.MatchModel;
 /**
  * Controller for the bottom controls.
  */
-public class BottomControlsDisplay {
+public class BottomControlsController {
     @FXML
     private Label matchedWordsLabel;
     @FXML

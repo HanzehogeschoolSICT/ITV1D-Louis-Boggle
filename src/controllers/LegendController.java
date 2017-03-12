@@ -1,4 +1,4 @@
-package displays;
+package controllers;
 
 import data.Settings;
 import javafx.fxml.FXML;
@@ -11,7 +11,7 @@ import models.LetterColorModel;
 /**
  * Controller for the legend.
  */
-public class LegendDisplay {
+public class LegendController {
     @FXML
     private Label noMatchColorLabel;
     @FXML
