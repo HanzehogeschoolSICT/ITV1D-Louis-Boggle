@@ -28,7 +28,7 @@ public class LegendController {
     private Canvas matchStartColorCanvas;
 
     /**
-     * Initialize the legend display.
+     * Initialize the legend controller.
      */
     @FXML
     public void initialize() {

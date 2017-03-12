@@ -29,7 +29,7 @@ public class BoardController {
     private GraphicsContext graphics;
 
     /**
-     * Initialize the board display.
+     * Initialize the board controller.
      */
     @FXML
     public void initialize() {

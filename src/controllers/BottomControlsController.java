@@ -26,7 +26,7 @@ public class BottomControlsController {
     private ComboBox<String> noMatchesComboBox;
 
     /**
-     * Initialize the bottom controls display.
+     * Initialize the bottom controls controller.
      */
     @FXML
     public void initialize() {

@@ -27,7 +27,7 @@ public class TopControlsController {
     private Button solveBoardButton;
 
     /**
-     * Initialize the top controls display.
+     * Initialize the top controls controller.
      */
     @FXML
     public void initialize() {
