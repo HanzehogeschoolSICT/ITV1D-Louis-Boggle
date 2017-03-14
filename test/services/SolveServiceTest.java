@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SolveServiceTest {
     /**
@@ -33,6 +33,6 @@ class SolveServiceTest {
         SolveService solveService = new SolveService(board, words);
 
         List<MatchModel> matches = solveService.getMatches();
-        assertTrue(matches.size() == 3, "Invalid number of matches!");
+        assertEquals(matches.size(), 3, "Invalid number of matches!");
     }
 }
