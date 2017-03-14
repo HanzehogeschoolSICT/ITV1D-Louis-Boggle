@@ -11,8 +11,11 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SolveServiceTest {
+    /**
+     * Test if the SolveService can find the requested words in the board.
+     */
     @Test
-    void matchWordsTest() throws Exception {
+    void matchWordsTest() {
         // This board contains WAT in 3 ways:
         // - X: 0, Y: 0 / X: 1, Y: 0 / X: 2, Y: 0
         // - X: 0, Y: 0 / X: 1, Y: 1 / X: 2, Y: 0
