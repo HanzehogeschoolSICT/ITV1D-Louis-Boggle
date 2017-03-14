@@ -45,7 +45,7 @@ public class SolveService extends Service<List<MatchModel>> {
      *
      * @return All matching words for the board.
      */
-    private List<MatchModel> getMatches() {
+    List<MatchModel> getMatches() {
         if (!isSolved) {
             Instant start = Instant.now();
             solve();

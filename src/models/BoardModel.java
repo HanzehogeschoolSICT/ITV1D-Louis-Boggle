@@ -25,6 +25,17 @@ public class BoardModel {
     }
 
     /**
+     * Initialize the board using the given board data and size.
+     *
+     * @param board Board data to use.
+     * @param size Size of the board data.
+     */
+    public BoardModel(char[][] board, int size) {
+        this.size = size;
+        this.board = board;
+    }
+
+    /**
      * Initialize the board using random letters.
      */
     private void fillBoard() {
